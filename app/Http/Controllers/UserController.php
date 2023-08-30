@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\PermissionGroups;
 use App\Models\Image;
+use App\Http\Controllers\Mails\AuthMailController;
 
 class UserController extends Controller
 {
@@ -55,26 +57,28 @@ class UserController extends Controller
             $uploadedImage = Image::find(1);
         }
 
-        $request['username'] = explode("@", $request['email']);
-
         $request->validate([
             'name' => 'required',
-            'email' => 'required',
-            'password' => 'required|min:6|confirmed',
-            'permission_id' => 'required'
+            'username' => 'required',
+            'email' => 'required|email',
         ]);
 
         $data = $request->only([
             'name',
+            'username',
+            'permission_id',
             'email',
-            'password',
-            'permission_id'
+            'phone'
         ]);
 
         $data['image_id'] = $uploadedImage->id;
 
-        $data['username'] = $request['username'][0].'@adm';
         $data['status'] = 'Ativado';
+
+        $data['password'] = Str::random(8);
+
+        AuthMailController::NewUserMail($data);
+
         $data['password'] = Hash::make($data['password']);
 
         User::create($data);
@@ -115,6 +119,7 @@ class UserController extends Controller
 
         $request->validate([
             'name' => 'required',
+            'username' => 'required',
             'email' => 'required',
             'permission_id' => 'required',
             'status' => 'required'
@@ -131,12 +136,13 @@ class UserController extends Controller
         $data = $request->only([
             'name',
             'email',
+            'username',
+            'phone',
             'password',
             'new_password',
             'permission_id',
             'status'
         ]);
-
 
 
         $data['image_id'] = $imageSend;

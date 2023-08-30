@@ -22,6 +22,7 @@ class UserFactory extends Factory
             'name' => 'Iago Silva',
             'image_id' => 1,
             'username' => 'iago@adm',
+            'phone' => '51991657516',
             'permission_id' => 1,
             'status' => 'Ativado',
             'email' => 'iago23st1@gmail.com',

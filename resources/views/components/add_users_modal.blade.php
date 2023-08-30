@@ -33,8 +33,8 @@
             </div>
 
             <div class="input-right-area default-flex-column">
-                <input type="password" name="password" placeholder="Senha">
-                <input type="password" name="password_confirmation" placeholder="Confirme a senha">
+                <input type="text" name="username" placeholder="Nome de Usuário">
+                <input type="phone" name="phone" placeholder="Telefone">
             </div>
         </div>
 

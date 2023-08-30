@@ -11,7 +11,7 @@
             <div class="top-left-area default-flex-column">
                 <h2>Editar Usuário</h2>
 
-                <div class="default-flex">
+                <div class="users-permissions-access-area default-flex">
                     <div class="user-permission-area default-flex-column">
                         <p class="profile-text">Perfil</p>
 
@@ -41,13 +41,17 @@
         <div class="inputs-area default-flex-between">
             <div class="input-left-area default-flex-column">
                 <input type="text" name="name" id="edit-name-input" placeholder="Nome">
-                <input type="email" name="email" id="edit-email-input" placeholder="E-mail">
+                <input type="text" name="username" id="edit-username-input" placeholder="Nome de Usuário">
+                <input type="password" name="password" placeholder="Senha">
             </div>
 
             <div class="input-right-area default-flex-column">
-                <input type="password" name="password" placeholder="Senha">
-                <input type="password" name="new_password" placeholder="Confirme a senha">
+                <input type="email" name="email" id="edit-email-input" placeholder="E-mail">
+                <input type="phone" name="phone" id="edit-phone-input" placeholder="Telefone">
+                <input type="password" name="new_password" placeholder="Nova senha">
             </div>
+
+
         </div>
 
         <div class="default-flex-between">

@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class LoginCodeMail extends Mailable
+class NewUserMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -28,7 +28,7 @@ class LoginCodeMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Click Shopping - Nova Tentativa de Acesso ao Painel Administrativo',
+            subject: 'Click Shopping - Nova conta de Acesso ao Painel Administrativo criada para você',
         );
     }
 
@@ -38,7 +38,7 @@ class LoginCodeMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mails.login_code_mail',
+            view: 'mails.new_user_mail',
         );
     }
 

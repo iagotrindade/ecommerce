@@ -542,6 +542,8 @@ if(document.querySelector(".add-user-button")) {
     let deleteUserInput= document.querySelector('#delete-user-input');
     let deleteUserButton = document.querySelector('.delete-user-button');
     let nameInput= document.querySelector('#edit-name-input');
+    let usernameInput = document.querySelector('#edit-username-input');
+    let phoneInput = document.querySelector('#edit-phone-input');
     let emailInput = document.querySelector('#edit-email-input');
     let userImage = document.querySelector('#edit-image');
     let userPermissionEditInput = document.querySelector('#edit-user-permission-input');
@@ -589,7 +591,10 @@ if(document.querySelector(".add-user-button")) {
                 }
             });
 
+            console.log(user);
             nameInput.value = user['name'];
+            usernameInput.value = user['username'];
+            phoneInput.value = user['phone'];
             emailInput.value = user['email'];
             userImage.src = 'storage/'+user['image'];
 

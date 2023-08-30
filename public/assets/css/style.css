@@ -1195,7 +1195,7 @@ tbody tr:nth-child(even) {
     top: -10000px;
 }
 
-.modal-top-area, .top-left-area {
+.modal-top-area, .top-left-area, .users-permissions-access-area {
     align-items: flex-start;
 }
 
