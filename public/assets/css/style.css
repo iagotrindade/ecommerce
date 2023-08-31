@@ -541,7 +541,9 @@ tbody tr:nth-child(even) {
     grid-template-areas:
     "area1 area2 area3 area4"
     "area1 area5 area5 ."
-    "area6 area6 area6 .";
+    "area6 area6 area6 area9"
+    "area7 area7 area7 area10"
+    "area8 area8 area8 area8";
     grid-gap: 10px;
     margin: 20px;
     border: 1px solid #D3CBFB;
@@ -549,8 +551,9 @@ tbody tr:nth-child(even) {
     padding: 37px;
     background-color: #F5F3FF;
     align-items: flex-start;
-    max-height: 870px;
+    max-height: 760px;
     align-items: center;
+    overflow-x: hidden;
 }
 
 .back-button-area {
@@ -608,48 +611,25 @@ tbody tr:nth-child(even) {
     color: #FFFFFF;
 }
 
-.order-top-info {
-    display: grid;
-    grid-template-areas:
-    "area1 area2 area3 area4"
-    "area1 area5 area5 area4";
+.order-product-item-area {
     grid-area: area6;
-}
-
-.order-main-info-area {
-    grid-area: area2;
-}
-
-.order-main-info-item {
-    width: 100%;
-    background-color: #FFFFFF;
-    box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.15);
+    border-left: solid  25px #F9C74F;
     border-radius: 17px;
-    border-left: 25px solid#F9C74F;
-    padding: 15px 20px 19px 15px;
-    margin-bottom: 20px;
-}
-
-.product-item-area {
-    border-bottom: 1px solid #DFDFDF;
-}
-
-.send-client-message-button-area {
-    width: 100%;
-    font-size: 8px;
-    color: #7A7A7A;
-    cursor: pointer;
-}
-
-.send-client-message-button-area i {
-    margin-right: 5px;
+    padding: 27px 30px 30px 20px;
+    box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.15);
+    overflow-x: scroll;
 }
 
 .stock-info-area {
     align-items: flex-start;
+    margin-bottom: 48px;
 }
 
 .stock-info-area h4 {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 19px;
+    color: #000000;
     margin-bottom: 11px;
 }
 
@@ -660,28 +640,19 @@ tbody tr:nth-child(even) {
     color: #7A7A7A;
 }
 
-.product-info-left  {
-    width: 100%;
-}
+.product-info-area {
+    border-bottom: 1px solid #DFDFDF;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}   
 
-.product-img-area {
-    align-items: flex-start;
-    margin: 20px 0;
-}
-
-.product-img-area img {
+.product-info-left-area img {
     width: 70px;
-    height: 70px;
+    height: 60px;
     margin-right: 10px;
 }
 
-.product-info-area {
-    width: 100%;
-    height: 65px;
-    align-items: flex-start;
-}
-
-.product-info-area a {
+.product-info-text a {
     font-weight: 500;
     font-size: 14px;
     line-height: 19px;
@@ -689,7 +660,7 @@ tbody tr:nth-child(even) {
     color: #576DEA;
 }
 
-.product-info-area p {
+.product-info-text p {
     font-weight: 500;
     font-size: 11px;
     line-height: 15px;
@@ -697,24 +668,39 @@ tbody tr:nth-child(even) {
     margin-top: 10px;
 }
 
-.product-info-right {
-    width: 100%;
-    height: 65px;
+.product-info-prices {
+    margin-right: 30px;
+}
+
+.product-info-prices, .product-info-total-amount {
     font-weight: 500;
     font-size: 14px;
     line-height: 19px;
     color: #7A7A7A;
 }
 
-.product-price {
-    margin-right: 31px;
+.total-amount-area {
+    border-bottom: 1px solid #DFDFDF;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
 }
 
-.processing-buttons-area {
-    margin-top: 20px;
+.order-products-values-area {
+    grid-area: area7;
+    border-left: solid  25px #71D761;
+    border-radius: 17px;
+    padding: 27px 30px 30px 20px;
+    box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.15);
 }
-.action-buttons-area {
-    margin-top: 20px;
+
+.order-products-values-area p {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.order-payment-product-actions-area {
+    margin-top: 30px;
 }
 
 .empty-stock {
@@ -746,8 +732,51 @@ tbody tr:nth-child(even) {
     cursor: pointer;
 }
 
+.timeline-area {
+    grid-area: area8;
+}
+
+.timeline-area h3 {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #DFDFDF;
+    width: 157px;
+    margin-bottom: 37px;
+    margin-top: 10px;
+}
+
+.timeline-item {
+    width: 150px;
+    height: 86px;
+    text-align: center;
+}
+
+.timeline-line-left, .timeline-line-right {
+    height: 2px;
+    width: 71px;
+    background-color: var(--primary-color);
+}
+
+.timeline-item p {
+    height: 44px;
+    margin-bottom: 10px;
+}
+
+.time-line-event i {
+    font-size: 18px;
+    color: var(--primary-color);
+}
+
+.timeline-item a {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    text-decoration-line: underline;
+    color: #0075E2;
+    margin-top: 10px;
+}
+
 .observation-area {
-    grid-area: area3;
+    grid-area: area9;
     height: 143px;
     background-color: #FFFFFF;
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15);
@@ -759,59 +788,12 @@ tbody tr:nth-child(even) {
     margin-bottom: 20px;
 }
 
-.payment-info-area {
-    grid-area: area5;
-    background-color: #FFFFFF;
-    box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.15);
-    border-radius: 17px;
-    border-left: 25px solid#71D761;
-    padding: 15px 20px 19px 15px;
-}
-
-.payment-info-bold {
-    width: 100%;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 19px;
-    color: #000000;
-    margin-bottom: 10px;
-}
-
-.payment-info-normal {
-    width: 100%;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 19px;
-    color: #7A7A7A;
-    margin-bottom: 10px;
-}
-
-.subtotal-amount-area {
-    margin-top: 24px;
-    margin-bottom: 10px;
-}
-
-.paid-by-client-area {
-    border-top: 1px solid #DFDFDF;
-    padding-top: 10px;
-}
-
 .shipping-area {
     margin-bottom: 20px;
 }
 
-.total-amount-area {
-    border-bottom: 1px solid #DFDFDF;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-}
-
-.payment-buttons-area {
-    margin-top: 30px;
-}
-
 .client-info-area {
-    grid-area: area4;
+    grid-area: area10;
     background-color: #FFFFFF;
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15);
     border-radius: 16px;
@@ -841,49 +823,6 @@ tbody tr:nth-child(even) {
 .basic-info, .contact-info, .shipping-info {
     border-bottom: 1px solid #DFDFDF;
     margin-bottom: 10px;
-}
-
-.timeline-area {
-    grid-area: area6;
-}
-
-.timeline-area h3 {
-    padding-bottom: 10px;
-    border-bottom: 1px solid #DFDFDF;
-    width: 157px;
-    margin-bottom: 37px;
-    margin-top: 10px;
-}
-
-.timeline-item {
-    width: 160px;
-    height: 86px;
-    text-align: center;
-}
-
-.timeline-line-left, .timeline-line-right {
-    height: 2px;
-    width: 71px;
-    background-color: var(--primary-color);
-}
-
-.timeline-item p {
-    height: 44px;
-    margin-bottom: 10px;
-}
-
-.time-line-event i {
-    font-size: 18px;
-    color: var(--primary-color);
-}
-
-.timeline-item a {
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 16px;
-    text-decoration-line: underline;
-    color: #0075E2;
-    margin-top: 10px;
 }
 
 /*GALLERY CSS*/
