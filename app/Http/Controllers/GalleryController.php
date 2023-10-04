@@ -12,23 +12,33 @@ class GalleryController extends Controller
 {
     public function index() {
         $authUser = AuthController::getAuthUser();
-        $images = Image::orderBy("created_at", "desc")->get();
         $permissionsController = PermissionController::class;
 
         return view('gallery', [
             'authUser' => $authUser,
-            'images' => $images,
             'permissions' => $permissionsController
         ]);
     }
 
     public function new(Request $request) {
         if($request->hasFile('image') && $request->image->isValid()) {
-            $imgName = $request->image->store('gallery');
-
-            Image::create([
-                "name" => $imgName
+            $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,gif|max:2048'
             ]);
+
+            $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
+
+            if (in_array($request->image->getMimeType(), $allowedMimeTypes)) {
+                $imgName = $request->image->store('gallery');
+
+                Image::create([
+                    "name" => $imgName
+                ]);
+            }
+
+            else {
+                return redirect(route('gallery'))->withErrors(['tipo' => 'O tipo de arquivo não é suportado!']);
+            }
         }
 
         return redirect('gallery');
@@ -57,6 +67,10 @@ class GalleryController extends Controller
                     $image->delete();
                 }
             }
+        }
+
+        else {
+            return redirect(route('gallery'))->withErrors(['vazio' => 'É preciso selecionar ao menos uma imagem!']);
         }
 
         return redirect('gallery');

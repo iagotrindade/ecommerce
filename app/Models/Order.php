@@ -29,11 +29,6 @@ class Order extends Model
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-
-    ];
 
     public function client()
     {

@@ -10,7 +10,12 @@ use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\PermissionGroups;
 use App\Models\Image;
+use Illuminate\Support\Facades\Config;
 use App\Http\Controllers\Mails\AuthMailController;
+use App\Http\Controllers\WhatsAppController;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\CreateUserNotification;
+use App\Events\UserRegistration;
 
 class UserController extends Controller
 {
@@ -21,36 +26,34 @@ class UserController extends Controller
         $users = User::all();
         $permissionGroups = PermissionGroups::all();
 
-        //CHANGE PERMISSION ID FOR TEXT
-        foreach ($users as $user) {
-            foreach ($permissionGroups as $permission) {
-                if($user['permission_id'] == $permission['id']) {
-                    $user['permissionName'] = $permission['name'];
-                }
-            }
-
-            $user['image'] = $user->getImage->name;
-        }
-
         //GETTING PERMISSION CONTROLLER
         $permissionsController = PermissionController::class;
 
         //RENDERING VIEW
         return view('users', [
             'authUser' => $authUser,
-            'users' => $users,
             'permissionsController' => $permissionsController,
             'permissionGroups' => $permissionGroups
         ]);
     }
 
     public function new(Request $request) {
-        if($request->hasFile('image') && $request->image->isValid()) {
-            $imgName = $request->image->store('avatars/adm');
+        $authUser = AuthController::getAuthUser();
 
-            $uploadedImage = Image::create([
-                "name" => $imgName
+        if($request->hasFile('image') && $request->image->isValid()) {
+            $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,gif|max:2048'
             ]);
+
+            $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
+
+            if (in_array($request->image->getMimeType(), $allowedMimeTypes)) {
+                $imgName = $request->image->store('avatars/adm');
+
+                $uploadedImage = Image::create([
+                    "name" => $imgName
+                ]);
+            }
         }
 
         else {
@@ -60,7 +63,8 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required',
             'username' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email',
+            'permission_id' => 'required'
         ]);
 
         $data = $request->only([
@@ -77,11 +81,22 @@ class UserController extends Controller
 
         $data['password'] = Str::random(8);
 
-        AuthMailController::NewUserMail($data);
+        //AuthMailController::NewUserMail($data);
 
+        $whatsappMessage = "Olá ".$data['name']."! Nós viemos informar que sua conta no Painel Administrativo da Click Shopping está criada! Acesse o link ".url("adm")." e utilize a senha inicial ".$data['password']." para realizar o acesso. Após o seu primeiro acesso, você poderá redefinir sua senha. Caso essa mensagem tenha chegado para você por engano, pedimos gentilmente que desconsidere! Agradecimentos Click Shopping";
+
+        WhatsAppController::sendMessage($data['phone'], $whatsappMessage);
+
+        $passwordToMail = $data['password'];
         $data['password'] = Hash::make($data['password']);
 
-        User::create($data);
+        $newUser = User::create($data);
+
+        Notification::send($newUser, new CreateUserNotification($authUser, $newUser, $passwordToMail));
+
+        $pusherMessage = "Uma nova conta de acesso ao Painel Administrativo foi criado pelo usuário ".$authUser->name."";
+
+        event(new UserRegistration($pusherMessage));
 
         return redirect(route("users"));
     }
@@ -92,23 +107,31 @@ class UserController extends Controller
         $oldImage = Image::find($user->getImage->id);
 
         if($request->hasFile('image') && $request->image->isValid() ) {
-            $imageSend = $request->image->store('avatars/adm');
-
-            $imageSend = Image::create([
-                "name" => $imageSend
+            $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,gif|max:2048'
             ]);
 
-            $imageSend = $imageSend->id;
+            $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
-            if($oldImage->name !== 'avatars/adm/default_avatar.png') {
-                $user->update([
-                    'image' => 1
+            if (in_array($request->image->getMimeType(), $allowedMimeTypes)) {
+                $imageSend = $request->image->store('avatars/adm');
+
+                $imageSend = Image::create([
+                    "name" => $imageSend
                 ]);
 
-                $oldImage->delete();
+                $imageSend = $imageSend->id;
 
-                if(Storage::exists($oldImage->name)) {
-                    Storage::delete($oldImage->name);
+                if($oldImage->name !== 'avatars/adm/default_avatar.png') {
+                    $user->update([
+                        'image' => 1
+                    ]);
+
+                    $oldImage->delete();
+
+                    if(Storage::exists($oldImage->name)) {
+                        Storage::delete($oldImage->name);
+                    }
                 }
             }
         }
@@ -120,11 +143,15 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required',
             'username' => 'required',
-            'email' => 'required',
             'permission_id' => 'required',
             'status' => 'required'
         ]);
 
+        if($request->email != $user->email) {
+            $request->validate([
+                'email' => 'required|email|unique:users,email'
+            ]);
+        }
 
         if($request->password) {
             $request->validate([
@@ -162,9 +189,8 @@ class UserController extends Controller
     }
 
 
-    public function delete(Request $request) {
-        $data = $request->all();
-        $user = User::find($data['user-id']);
+    public function delete(Request $request, $id) {
+        $user = User::find($id);
 
         $userImage = Image::where('name', $user['image'])->get();
 
@@ -183,5 +209,41 @@ class UserController extends Controller
         $user->delete();
 
         return redirect('users');
+    }
+
+    public static function processUsersListInfo($usersList, $permissionGroups) {
+        //CHANGE PERMISSION ID FOR TEXT
+        $users = [];
+        foreach ($usersList as $user) {
+            foreach ($permissionGroups as $permission) {
+                if($user['permission_id'] == $permission['id']) {
+                    $user['permissionName'] = $permission['name'];
+                }
+            }
+
+            if(! $user['image']) {
+                $user['image'] = User::find($user['id'])->getImage->name;
+            }
+
+            $users[] = $user;
+        }
+
+        return $users;
+    }
+
+    public static function processUserInfo($user, $permissionGroups) {
+        //CHANGE PERMISSION ID FOR TEXT
+
+        foreach ($permissionGroups as $permission) {
+            if($user->permission_id == $permission->id) {
+                $user->permissionName = $permission->name;
+            }
+        }
+
+        if(! $user->image) {
+            $user->image = User::find($user['id'])->getImage->name;
+        }
+
+        return $user;
     }
 }

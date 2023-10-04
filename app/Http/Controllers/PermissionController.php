@@ -46,18 +46,24 @@ class PermissionController extends Controller
         $data = $request;
         $permissionsItemsIds = explode(',', $data->permissions_list);
 
-        $newGroup = PermissionGroups::create([
-            'name' => $data->name
-        ]);
-
-        foreach ($permissionsItemsIds as $permissionItemId) {
-            PermissionLinks::create([
-                'permission_item_id' => $permissionItemId,
-                'permission_group_id' => $newGroup->id
+        if($permissionsItemsIds[0] != '') {
+            $newGroup = PermissionGroups::create([
+                'name' => $data->name
             ]);
+
+            foreach ($permissionsItemsIds as $permissionItemId) {
+                PermissionLinks::create([
+                    'permission_item_id' => $permissionItemId,
+                    'permission_group_id' => $newGroup->id
+                ]);
+            }
+
+            return redirect('permissions');
         }
 
-        return redirect('permissions');
+        else {
+            return redirect(route('permissions'))->withErrors(['vazio' => 'É preciso selecionar ao menos uma permissão!']);
+        }
     }
 
     public function edit(Request $request) {
@@ -104,6 +110,10 @@ class PermissionController extends Controller
 
         if(empty($users[0])) {
             $permissionGroup->delete($data->id);
+        }
+
+        else {
+            return redirect(route('permissions'))->withErrors(['negado' => 'Existem usuários com este grupo de permissão!']);
         }
 
         return redirect('permissions');

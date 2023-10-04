@@ -163,7 +163,7 @@
                 <p>Iago Silva</p>
                 <a href="">Ver Perfil</a>
             </div>
-            
+
             <div class="contact-info">
                 <h4>Informações de Contato</h4>
                 <a href="">iago23st1@gmail.com</a>
@@ -179,6 +179,12 @@
                 <p>Referencia: Em frente a um campo</p>
 
                 <a href="">Ver no Mapa</a>
+            </div>
+
+
+            <div class="shipping-info">
+                <h4>Endereço de Faturamento</h4>
+                <p>Usar Endereço de entrega</p>
             </div>
         </div>
 </x-adm_layout>

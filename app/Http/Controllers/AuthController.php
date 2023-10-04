@@ -10,6 +10,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Carbon;
 use App\Models\User;
+use App\Models\PermissionGroups;
 use App\Models\Permissionitems;
 use App\Models\PermissionLinks;
 use App\Models\Image;
@@ -87,6 +88,7 @@ class AuthController extends Controller
             }
 
             if(Auth::attempt(['email' => $validator['email'], 'password' => $validator['password']], $remember)) {
+                Notification::send($user, new LoginNotification($user));
                 return redirect(route('dashboard'));
             };
         }
@@ -115,6 +117,7 @@ class AuthController extends Controller
 
         //GETTING USER PERMISSION ITEMS
         $permissionItemsIds = array();
+
         foreach (PermissionLinks::where('permission_group_id', $authUser['permission']['id'])->get() as $item) {
             $permissionItemsIds[] = $item['permission_item_id'];
         }

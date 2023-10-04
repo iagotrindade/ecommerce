@@ -15,12 +15,11 @@
                 <div class="login-form-header-area default-flex-column">
                     <img src="{{url("assets/images/panel-images/login-icon-image.png")}}" alt="ícone">
 
-
-
                     @if ($errors->any())
-                        @foreach ($errors->all() as $error)
-                            <h4 class="warning-item">{{$error}}</h4>
-                        @endforeach
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li class="warning-item">{{$error}}</li>
+                            @endforeach
                         </ul>
 
                     @else <h2 class="confirm-login-title">LOGIN</h2>
@@ -37,12 +36,12 @@
                         <div class="input-area">
                             <div class="">
                                 <i class='bx bx-user'></i>
-                                <input type="text" name="email" id="email" placeholder="Digite seu E-mail">
+                                <input type="text" name="email" id="email" placeholder="Digite seu E-mail" required>
                             </div>
 
                             <div class="">
                                 <i class='bx bxs-lock'></i>
-                                <input type="password" name="password" id="password" placeholder="Digite sua Senha">
+                                <input type="password" name="password" id="password" placeholder="Digite sua Senha" required>
                             </div>
 
                             <div class="remember-input-area default-flex-start">

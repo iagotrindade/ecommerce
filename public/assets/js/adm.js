@@ -37,194 +37,6 @@ if(document.querySelector('#toggle-dropdown-menu-action') !== null) {
     });
 }
 
-//OPEN NOTIFICATION BAR
-
-if(document.querySelector('#toggle-notification-bar') !== null) {
-    document.querySelector('#toggle-notification-bar').addEventListener('click', () => {
-        if(document.querySelector('.notification-list-area').style.display === 'none') {
-            document.querySelector('.notification-list-area').style.display = 'flex';
-        }
-
-        else {
-            document.querySelector('.notification-list-area').style.display = 'none';
-        }
-    })
-}
-
-
-//SEARCH ORDER SCRIPT
-
-if(document.querySelectorAll('.order-number')) {
-    let item = document.querySelectorAll('.order-number');
-
-    document.getElementById('search').addEventListener("keyup", function () {
-
-        var term = document.getElementById('search').value.toLowerCase();
-        var find = false;
-        var show = [];
-
-        for(var i = 0; i < item.length; i++) {
-            var value = item[i].childNodes[0].nodeValue.toLowerCase();
-
-            if(value.indexOf(term) >= 0) {
-                show.push(item[i].closest("#order-item"));
-                find = true;
-            }
-
-        }
-
-        if(find) {
-            for(var i = 0; i < item.length; i++) {
-                item[i].closest("#order-item").style.display = 'none';
-            }
-
-            for(var i = 0; i < show.length; i++) {
-                show[i].closest("#order-item").style.display = 'table-row';
-                }
-            }
-
-            else {
-                for(var i = 0; i < item.length; i++) {
-                item[i].closest("#order-item").style.display = 'none';
-            }
-        }
-    })
-}
-
-
-//FILTER ORDER SCRIPT
-
-let filters = document.querySelectorAll('.status-filter-item');
-
-filters.forEach(element => {
-    element.addEventListener('click', () => {
-        switch (element.innerHTML) {
-            case "Todos":
-                document.querySelector('.status-filter-item-active').classList.remove("status-filter-item-active");
-                element.classList.add("status-filter-item-active");
-                showAllOrders()
-                break;
-
-            case "Não Processados":
-                document.querySelector('.status-filter-item-active').classList.remove("status-filter-item-active");
-                element.classList.add("status-filter-item-active");
-
-                hideAllOrders()
-
-                document.querySelectorAll("#processing-status").forEach(e => {
-                    if(e.childNodes[1].innerHTML === "Não Processado") {
-
-                        e.parentElement.style.display = 'table-row';
-                    }
-                });
-                break;
-
-
-            case "Processados":
-                document.querySelector('.status-filter-item-active').classList.remove("status-filter-item-active");
-                element.classList.add("status-filter-item-active");
-
-                hideAllOrders()
-
-                document.querySelectorAll("#processing-status").forEach(e => {
-                    if(e.childNodes[1].innerHTML === "Processado") {
-
-                        e.parentElement.style.display = 'table-row';
-                    }
-                });
-                break;
-
-            case "Pendentes":
-                document.querySelector('.status-filter-item-active').classList.remove("status-filter-item-active");
-
-                element.classList.add("status-filter-item-active");
-
-                hideAllOrders()
-
-                document.querySelectorAll("#payment-status").forEach(e => {
-                    if(e.childNodes[1].innerHTML === "Pendente") {
-                        e.parentElement.style.display = 'table-row';
-                    }
-                });
-                break;
-
-            case "Cancelados":
-                document.querySelector('.status-filter-item-active').classList.remove("status-filter-item-active");
-
-                hideAllOrders()
-
-                element.classList.add("status-filter-item-active");
-                document.querySelectorAll("#payment-status").forEach(e => {
-                    if(e.childNodes[1].innerHTML === "Cancelado") {
-                        e.parentElement.style.display = 'table-row';
-                    }
-                });
-                break;
-
-            default:
-                break;
-        }
-    })
-});
-
-
-//FILTER CITY SCRIPT
-
-if(document.querySelector('#city-filter-item') != null) {
-    document.querySelector('#city-filter-item').addEventListener('change', (element) => {
-        var item = document.querySelectorAll('[data-city]');
-
-        var term = element.srcElement.selectedOptions[0].value.toLowerCase();
-        var find = false;
-        var show = [];
-
-        for(var i = 0; i < item.length; i++) {
-            var value = item[i].dataset.city.toLowerCase();
-
-            if(value.indexOf(term) >= 0) {
-                show.push(item[i].closest("#order-item"));
-                find = true;
-            }
-        }
-
-        if(find) {
-            for(var i = 0; i < item.length; i++) {
-                item[i].closest("#order-item").style.display = 'none';
-            }
-
-            for(var i = 0; i < show.length; i++) {;
-                show[i].closest("#order-item").style.display = 'table-row';
-            }
-        }
-
-        else if(term === 'default') {
-            for(var i = 0; i < item.length; i++) {
-                item.forEach(element => {
-                    element.style.display = 'table-row';
-                })
-            }
-        }
-
-        else {
-            for(var i = 0; i < item.length; i++) {
-            item[i].closest("#order-item").style.display = 'none';
-        }
-    }})
-
-    function showAllOrders() {
-        document.querySelectorAll("#order-item").forEach(e => {
-            e.style.display = 'table-row';
-        });
-    }
-
-    function hideAllOrders() {
-        document.querySelectorAll("#order-item").forEach(e => {
-            e.style.display = 'none';
-        });
-    }
-}
-
-
 //OPEN ADD IMAGE MODAL
 
 if(document.querySelector('#add-image') != null) {
@@ -288,8 +100,7 @@ if(document.querySelector('#add-image') != null) {
             else {
                 element.parentElement.parentElement.style.backgroundColor = '#FFFFFF';
             }
-    })
-
+        })
     })
 
     document.querySelectorAll('.delete-image-area').forEach(element => {
@@ -308,40 +119,6 @@ if(document.querySelector('#add-image') != null) {
             document.querySelector('#delete-form').submit();
         }, 100);
     }
-
-
-    //FILTER IMAGES BY DATE
-
-    document.querySelector('#date-filter').addEventListener('change', () => {
-        let imagesBox = document.querySelectorAll('.image-box');
-
-        let newOrder = [];
-
-        imagesBox.forEach(element => {
-            newOrder.push(element.outerHTML);
-        });
-
-        newOrder.reverse();
-
-        imagesBox.forEach(element => {
-            element.parentNode.removeChild(element);
-        });
-
-        newOrder = newOrder.join("");
-
-        document.querySelector('#delete-form').innerHTML = newOrder;
-
-        document.querySelectorAll('.delete-image-area').forEach(element => {
-            element.addEventListener('click', () => {
-
-                document.querySelectorAll('#delete-checkbox').forEach(e => {
-                    if(e.checked !== true) {
-                        e.nextElementSibling.name = "";
-                    }
-                });
-            })
-        })
-    })
 }
 
 
@@ -423,47 +200,6 @@ if(document.querySelectorAll('.users-filter-button') !== null) {
     }
 }
 
-
-//SEARCH USER SCRIPT
-
-if(document.querySelectorAll('#user-name')) {
-    var item = document.querySelectorAll('#user-name');
-
-    document.getElementById('search').addEventListener("keyup", function () {
-
-        var term = document.getElementById('search').value.toLowerCase();
-        var find = false;
-        var show = [];
-
-        for(var i = 0; i < item.length; i++) {
-            var value = item[i].childNodes[0].nodeValue.toLowerCase();
-
-            if(value.indexOf(term) >= 0) {
-                show.push(item[i].closest("#user-name"));
-                find = true;
-            }
-        }
-
-        if(find) {
-            for(var i = 0; i < item.length; i++) {
-
-                item[i].parentElement.style.display = 'none';
-            }
-
-            for(var i = 0; i < show.length; i++) {
-                console.log(show[i]);
-                show[i].parentElement.style.display = 'table-row';
-                }
-            }
-
-            else {
-                for(var i = 0; i < item.length; i++) {
-                item[i].parentElement.style.display = 'none';
-            }
-        }
-    })
-}
-
 //OPEN ADD USER MODAL
 
 if(document.querySelector(".add-user-button")) {
@@ -538,138 +274,48 @@ if(document.querySelector(".add-user-button")) {
 
     //OPEN EDIT USER MODAL AND SET USER INFORMATIONS
     let editUsersModal = document.querySelector('.edit-user-modal-area');
-    let editUserId = document.querySelector("#edit-user-id-input");
-    let deleteUserInput= document.querySelector('#delete-user-input');
-    let deleteUserButton = document.querySelector('.delete-user-button');
-    let nameInput= document.querySelector('#edit-name-input');
-    let usernameInput = document.querySelector('#edit-username-input');
-    let phoneInput = document.querySelector('#edit-phone-input');
-    let emailInput = document.querySelector('#edit-email-input');
-    let userImage = document.querySelector('#edit-image');
-    let userPermissionEditInput = document.querySelector('#edit-user-permission-input');
-    let userStatusInput = document.querySelector('#edit-user-status-input');
 
     document.querySelectorAll('#edit-user-button').forEach(element => {
         element.addEventListener('click', () => {
 
-            editUsersModal.style.opacity = 0;
-            editUsersModal.style.display = "initial";
+            setTimeout(() => {
+                editUsersModal.style.opacity = 0;
+                editUsersModal.style.display = "initial";
+            },300);
 
             usersModalFilter.style.opacity = 0;
-            usersModalFilter.style.display = "block";
 
             setTimeout(() => {
-                usersModalFilter.style.opacity = 0.5;
                 editUsersModal.style.opacity = 1;
-            },2);
-
-            let user = JSON.parse(element.attributes['data-user'].value);
-
-            editUserId.value = user['id'];
-
-            if(document.querySelector('.permission-active-edit') !== null) {
-                document.querySelector('.permission-active-edit').classList.remove('permission-active-edit');
-            }
-
-            document.querySelectorAll('.permission-item-edit').forEach(element => {
-                if(user['permissionName'] === element.innerText) {
-                    element.classList.add('permission-active-edit');
-
-                    userPermissionEditInput.value = element.attributes['data-id'].value;
-                }
-            });
-
-            if(document.querySelector('.access-permission-active')) {
-                document.querySelector('.access-permission-active').classList.remove('access-permission-active');
-            }
-
-            document.querySelectorAll('.access-item').forEach(element => {
-                if(user['status'] === element.innerText) {
-                    element.classList.add('access-permission-active');
-
-                    userStatusInput.value = element.attributes['data-status'].value;
-                }
-            });
-
-            console.log(user);
-            nameInput.value = user['name'];
-            usernameInput.value = user['username'];
-            phoneInput.value = user['phone'];
-            emailInput.value = user['email'];
-            userImage.src = 'storage/'+user['image'];
-
-            deleteUserInput.value = user['id'];
-
-            deleteUserButton.addEventListener('click', (e) => {
-                e.preventDefault();
-
-                document.querySelector('#delete-user-form').submit();
-            })
-        })
-    });
-
-    //CHANGE EDIT USER PERMISSION VALUE
-
-    document.querySelectorAll('.permission-item-edit').forEach(element => {
-        element.addEventListener('click', () => {
-
-            document.querySelector('.permission-active-edit').classList.remove('permission-active-edit');
-
-            userPermissionEditInput.value = element.attributes['data-id'].value;
-
-            element.classList.add('permission-active-edit');
-        })
-    });
-
-
-    //CHANGE EDIT USER STATUS VALUE
-
-    document.querySelectorAll('.access-item').forEach(element => {
-        element.addEventListener('click', () => {
-
-            document.querySelector('.access-permission-active').classList.remove('access-permission-active');
-
-            userStatusInput.value = element.attributes['data-status'].value;
-
-            element.classList.add('access-permission-active');
+                usersModalFilter.style.opacity = 0.5;
+                usersModalFilter.style.display = "block";
+            },600);
         })
     });
 
     //EDIT USER IMAGE SCRIPT
-
-    let editUserImageInput = document.querySelector('#edit-user-image-input');
-
-    document.querySelector('#edit-image').addEventListener('click', () => {
+    function editUserImage() {
+        let editUserImageInput = document.querySelector('#edit-user-image-input');
         editUserImageInput.click();
 
         editUserImageInput.addEventListener('change', () => {
             if(editUserImageInput.files.length <= 0) {
                 return;
             }
-
-            let reader = new FileReader();
-
-            reader.onload = () => {
-                if(reader.result.indexOf('data:video')) {
-                    document.querySelector('.edit-user-image-input-area').innerHTML = '<img src="'+reader.result+'" id="user-image-loaded">';
-                    document.querySelector('.edit-user-image-input-area').style.padding = '0';
-                }
-              }
-
-              reader.readAsDataURL(editUserImageInput.files[0]);
         })
-    })
+    }
 
     //CLOSE EDIT MODAL
-    document.querySelector('#close-edit-user-modal-button').addEventListener('click', (e) => {
-        e.preventDefault();
+    function closeModal() {
+        let closeButton = document.querySelector('#close-edit-user-modal-button')
+        closeButton.preventDefault();
 
         usersModalFilter.style.opacity = 0;
         usersModal.style.opacity = 0;
 
         editUsersModal.style.display = "none";
         usersModalFilter.style.display = "none";
-    })
+    }
 }
 
 
@@ -832,4 +478,10 @@ if(document.querySelector('.add-permission-button') != null) {
     })
 }
 
+//Close notification Modal
 
+document.querySelector('.close-notification-modal').addEventListener('click', () => {
+    let notificationModal = document.querySelector('.pusher-alert-area');
+
+    notificationModal.style.display = 'none';
+})

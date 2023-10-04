@@ -11,9 +11,38 @@ use App\Models\User;
 class OrderController extends Controller
 {
     public function index() {
-        $orders = Order::orderBy("created_at", "desc")->get();
-
         $authUser = AuthController::getAuthUser();
+
+        return view("orders" , [
+            "authUser" => $authUser
+        ]);
+    }
+
+    public function order(Request $request ) {
+        $authUser = AuthController::getAuthUser();
+
+        $orderId = $request->id;
+
+        $order = Order::find($orderId);
+
+        $order['client'] = $order->client;
+
+        $order['purchasedItems'] = $order->pruchasedItems;
+
+        foreach ($order['purchasedItems'] as $product) {
+            $orders = $product->purchasesProduts;
+        }
+
+        $order['order_date'] = Carbon::parse($order['created_at'])->formatLocalized('%A, %d de %B de %Y, %H:%M:%S na Loja Online');
+
+        return view("order", [
+            "order" => $order,
+            "authUser" => $authUser
+        ]);
+    }
+
+    public static function processOrdersInfo($orders) {
+        $processedOrders = [];
 
         foreach ($orders as $data) {
             switch ($data['payment_status']) {
@@ -43,36 +72,11 @@ class OrderController extends Controller
                     $data['processing_color'] = "red-status";
                     break;
             }
-
             $data['order_date'] = date('d/m/Y - h:m', strtotime($data['created_at']));
+
+            $processedOrders[] = $data;
         }
 
-        return view("orders" , [
-            "orders" => $orders,
-            "authUser" => $authUser
-        ]);
-    }
-
-    public function order(Request $request ) {
-        $authUser = AuthController::getAuthUser();
-
-        $orderId = $request->id;
-
-        $order = Order::find($orderId);
-
-        $order['client'] = $order->client;
-
-        $order['purchasedItems'] = $order->pruchasedItems;
-
-        foreach ($order['purchasedItems'] as $product) {
-            $orders = $product->purchasesProduts;
-        }
-
-        $order['order_date'] = Carbon::parse($order['created_at'])->formatLocalized('%A, %d de %B de %Y, %H:%M:%S na Loja Online');
-
-        return view("order", [
-            "order" => $order,
-            "authUser" => $authUser
-        ]);
+        return $processedOrders;
     }
 }

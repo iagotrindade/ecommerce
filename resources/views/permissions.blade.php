@@ -1,15 +1,24 @@
-<x-adm_layout title="Permissões" activeMenu="permissions" userName="{{$authUser->name}}" userImage="{{$authUser->image}}">
+<x-adm_layout title="Permissões" activeMenu="permissions" userName="{{$authUser->name}}" userImage="{{$authUser->image}}" pastSearchFunction="searchOrders">
 
     <div class="permissions-area">
         <div class="permissions-area-top default-flex-between">
-            <h1 class="users-title">Gerenciar Permissões</h1>
+            <h1 class="users-title">Gerenciar Grupos de Permissões</h1>
 
             @if($permissionsController::hasPermission('register_new_permission', $authUser['permissionSlugs']))
-                <p class="add-permission-button default-flex">+ Nova Permissão</p>
+                <p class="add-permission-button default-flex">+ Novo Grupo</p>
             @endif
         </div>
 
-        <p class="slugs-warnings">*Aviso: Slugs são identificadores inalteraveis de cada permissão, por isso não é possível edita-los</p>
+        <p class="slugs-warnings">*Aviso: As permissões são pré-definidas pelo Desenvolvedor, não é possível altera-las através do Painel Administrativo</p>
+
+        <div class="permissions-warning-area">
+            @if ($errors->any())
+
+                @foreach ($errors->all() as $error)
+                    <p class="warning-item">{{$error}}</p>
+                @endforeach
+            @endif
+        </div>
 
         <div class="permissions-items-table-area">
             <table class="permissions-table">

@@ -28,13 +28,13 @@
 
         <div class="inputs-area default-flex-between">
             <div class="input-left-area default-flex-column">
-                <input type="text" name="name" placeholder="Nome">
-                <input type="email" name="email" placeholder="E-mail">
+                <input type="text" name="name" placeholder="Nome" required>
+                <input type="email" name="email" placeholder="E-mail" required>
             </div>
 
             <div class="input-right-area default-flex-column">
-                <input type="text" name="username" placeholder="Nome de Usuário">
-                <input type="phone" name="phone" placeholder="Telefone">
+                <input type="text" name="username" placeholder="Nome de Usuário" required>
+                <input type="phone" name="phone" placeholder="Telefone (Opcional)">
             </div>
         </div>
 

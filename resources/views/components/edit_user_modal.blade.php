@@ -67,7 +67,8 @@
 
     </form>
 
-    <form action="{{route("user.delete")}}"></form>
+    <form method="POST" action="{{route("user.delete")}}" id="delete-user-form">
+        @csrf
         <input type="hidden" name="userId" id="delete-user-input">
     </form>
 </div>

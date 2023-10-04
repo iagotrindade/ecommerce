@@ -32,7 +32,7 @@ Route::middleware(["auth"])->group(function() {
     Route::get('/users', [UserController::class, 'index'])->name('users');
     Route::post('/users/new', [UserController::class, 'new'])->name('users.new');
     Route::post('/users/edit', [UserController::class, 'edit'])->name('users.edit');
-    Route::post('/user/delete', [UserController::class, 'delete'])->name('user.delete');
+    Route::get('/user/delete/{id}', [UserController::class, 'delete'])->name('user.delete');
     Route::get('/permissions', [PermissionController::class, 'index'])->name('permissions');
     Route::post('/permissions/new', [PermissionController::class, 'new'])->name('permissions.new');
     Route::post('/permissions/edit', [PermissionController::class, 'edit'])->name('permissions.edit');

@@ -355,15 +355,15 @@
 .notification-list-area {
     display: none;
     position: absolute;
-    margin-left: -325px;
+    margin-left: -470px;
     margin-top: 20px
 }
 
 .notification-list {
-    min-width: 350px;
+    min-width: 500px;
     background-color: var(--lightgray-color);
     border-radius: 9px;
-    max-height: 300px;
+    max-height: 350px;
     overflow-y: scroll;
 }
 
@@ -399,6 +399,43 @@
     margin-bottom: 3px;
     color: #919191;
 }
+
+.pusher-alert-area {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:rgba(29, 29, 29, 0.7);
+    background-size: cover;
+    z-index: 999; /* Certifique-se de que este elemento está acima de outros conteúdos */
+}
+
+.pusher-modal {
+    max-width: 600px;
+    padding: 15px 25px;
+    background-color: var(--lightgray-color);
+    border-radius: 9px;
+    position: fixed;
+    z-index: 2;
+}
+
+.pusher-alert-area i {
+    font-size: 25px;
+    margin-right: 5px;
+}
+
+.close-notification-modal {
+    cursor: pointer;
+}
+
+.pusher-alert-area p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
 
 .adm-profile-area {
     margin-left: auto;
@@ -542,6 +579,7 @@ tbody tr:nth-child(even) {
     "area1 area2 area3 area4"
     "area1 area5 area5 ."
     "area6 area6 area6 area9"
+    "area6 area6 area6 area10"
     "area7 area7 area7 area10"
     "area8 area8 area8 area8";
     grid-gap: 10px;
@@ -644,7 +682,7 @@ tbody tr:nth-child(even) {
     border-bottom: 1px solid #DFDFDF;
     padding-bottom: 20px;
     margin-bottom: 20px;
-}   
+}
 
 .product-info-left-area img {
     width: 70px;
@@ -857,6 +895,10 @@ tbody tr:nth-child(even) {
     border: none;
 }
 
+.gallery-header-area {
+    margin-bottom: 10px;
+}
+
 .gallery-header-area p {
     font-weight: 700;
     font-size: 14px;
@@ -1059,6 +1101,10 @@ tbody tr:nth-child(even) {
     background-color: #9586FF;
 }
 
+.users-warning-area, .permissions-warning-area {
+    padding-left: 52px;
+}
+
 .users-table {
     width: 100%;
     -webkit-border-horizontal-spacing: 0;
@@ -1121,6 +1167,7 @@ tbody tr:nth-child(even) {
     position: absolute;
     width: 874px;
     top: 30%;
+    left: 25%;
     margin: auto;
     background-color: #F5F3FF;
     border-radius: 21px;
@@ -1193,6 +1240,10 @@ tbody tr:nth-child(even) {
     border: 2px dotted #BDBDBD;
 }
 
+.edit-user-image-input-area {
+    padding: 0;
+}
+
 .user-image-input-area img {
     width: 28px;
     height: 28px;
@@ -1256,6 +1307,8 @@ tbody tr:nth-child(even) {
     text-decoration-line: underline;
     color: #E20000;
     text-decoration: none;
+    cursor: pointer;
+    border-bottom: 1px solid #E20000;
 }
 
 .modal-filter {

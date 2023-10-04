@@ -15,14 +15,10 @@
                 <div class="login-form-header-area default-flex-column">
                     <img src="{{url("assets/images/panel-images/login-icon-image.png")}}" alt="ícone">
 
-
-
                     @if ($errors->any())
                         @foreach ($errors->all() as $error)
                             <h4 class="warning-item">{{$error}}</h4>
                         @endforeach
-                        </ul>
-
                     @else <h4 class="confirm-login-title">Enviamos um e-mail com o código de segurança!</h4>
 
                     @endif
