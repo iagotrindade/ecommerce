@@ -109,7 +109,7 @@ return [
     |
     */
 
-    'faker_locale' => 'en_BR',
+    'faker_locale' => 'pt_BR',
 
     /*
     |--------------------------------------------------------------------------
@@ -168,6 +168,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Geocoder\Laravel\Providers\GeocoderService::class,
     ])->toArray(),
 
     /*

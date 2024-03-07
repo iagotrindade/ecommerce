@@ -18,5 +18,12 @@ class ImageSeeder extends Seeder
         DB::table('images')->insert([
             "name" => 'avatars/adm/default_avatar.png'
         ]);
+
+        DB::table('images')->insert([
+            "name" => 'products/product_image.png'
+        ]);
+
+
+
     }
 }

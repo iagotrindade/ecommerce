@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use app\Models\Order;
-use App\Models\Client;
+use App\Models\User;
 
 return new class extends Migration
 {
@@ -15,14 +15,18 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->nullable(false);
-            $table->string('client_name')->nullable(false);
+            $table->string('code');
+            $table->string('payment_id')->nullable();
             $table->string('order_city')->nullable(false);
             $table->string('payment_type');
-            $table->string('payment_status');
-            $table->string('processing_status');
+            $table->string('costumer_id')->nullable();
+            $table->string('type')->nullable(false);
+            $table->string('status');
+            $table->float('shipping_amount')->nullable()->default(0);
             $table->float('total_amount')->nullable()->default(0);
-            $table->bigInteger('coupon_id');
+            $table->bigInteger('coupon_id')->nullable();
+            $table->string('obs')->nullable();
+            $table->boolean('is_new')->nullable()->default(true);
             $table->timestamps();
         });
     }

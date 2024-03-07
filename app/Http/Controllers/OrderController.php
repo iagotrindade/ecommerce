@@ -7,76 +7,43 @@ use \App\Models\Order;
 use \Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Http\Handlers\AuthHandler;
+use App\Http\Handlers\OrderHandler;
 
 class OrderController extends Controller
 {
+    public $user;
+
     public function index() {
-        $authUser = AuthController::getAuthUser();
+        $this->user = AuthHandler::getAuthUser();
 
         return view("orders" , [
-            "authUser" => $authUser
+            "user" => $this->user
         ]);
     }
 
     public function order(Request $request ) {
-        $authUser = AuthController::getAuthUser();
-
+        $this->user = AuthHandler::getAuthUser();
         $orderId = $request->id;
 
-        $order = Order::find($orderId);
-
-        $order['client'] = $order->client;
-
-        $order['purchasedItems'] = $order->pruchasedItems;
-
-        foreach ($order['purchasedItems'] as $product) {
-            $orders = $product->purchasesProduts;
-        }
-
-        $order['order_date'] = Carbon::parse($order['created_at'])->formatLocalized('%A, %d de %B de %Y, %H:%M:%S na Loja Online');
+        $order = OrderHandler::processOrderInfo($orderId);
 
         return view("order", [
             "order" => $order,
-            "authUser" => $authUser
+            "user" => $this->user
         ]);
     }
 
-    public static function processOrdersInfo($orders) {
-        $processedOrders = [];
+    public function refund(Request $request ) {
+        $order = Order::find($request->id);
 
-        foreach ($orders as $data) {
-            switch ($data['payment_status']) {
-                case 'Pago':
-                    $data['payment_color'] = "green-status";
-                    break;
-
-                case 'Pendente':
-                    $data['payment_color'] = "yellow-status";
-                    break;
-
-                case 'Cancelado':
-                    $data['payment_color'] = "red-status";
-                    break;
+        if(!empty($order)) {
+            if($order->payment_id === NULL) {
+                return redirect(route('order', $order->id))->withErrors([
+                    'notPix' => 'O pedido não foi pago via PIX!'
+                ]);
             }
-
-            switch ($data['processing_status']) {
-                case 'Processado':
-                    $data['processing_color'] = "green-status";
-                    break;
-
-                case 'Não Processado':
-                    $data['processing_color'] = "yellow-status";
-                    break;
-
-                case 'Cancelado':
-                    $data['processing_color'] = "red-status";
-                    break;
-            }
-            $data['order_date'] = date('d/m/Y - h:m', strtotime($data['created_at']));
-
-            $processedOrders[] = $data;
         }
-
-        return $processedOrders;
+        //FAZER O REEMBOLSO VIA AASAS
     }
 }

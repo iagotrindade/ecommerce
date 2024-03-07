@@ -20,7 +20,7 @@ class ProductsSeed extends Seeder
         DB::table('products')->insert([
             'name' => fake()->name(10),
             'description' => fake()->sentence(),
-            'image_id' => 1,
+            'image_id' => 2,
             'status' => 'Ativado',
             'price' => fake()->randomFloat(2, 10, 1000),
             'quantity' => fake()->randomNumber()

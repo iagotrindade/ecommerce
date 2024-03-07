@@ -18,6 +18,7 @@ class GaleryImages extends Component
 
     public function render()
     {
+        dd(session(['shipping']));
         if(empty($this->images)) {
             $this->images = Image::orderBy("created_at", "desc")->get();
         }

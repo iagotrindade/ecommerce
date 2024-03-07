@@ -13,17 +13,19 @@ use App\Models\Image;
 use Illuminate\Support\Facades\Config;
 use App\Http\Controllers\Mails\AuthMailController;
 use App\Http\Controllers\WhatsAppController;
+use App\Http\Handlers\AuthHandler;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\CreateUserNotification;
 use App\Events\UserRegistration;
 
 class UserController extends Controller
 {
-    public function index() {
-        //GETTING LOGGEDUSER, USERS LIST AND PERMISSIONS LIST
-        $authUser = AuthController::getAuthUser();
+    public $authUser;
 
-        $users = User::all();
+    public function index($id = null) {
+        //GETTING LOGGEDUSER, USERS LIST AND PERMISSIONS LIST
+        $this->authUser = AuthHandler::getAuthUser();
+
         $permissionGroups = PermissionGroups::all();
 
         //GETTING PERMISSION CONTROLLER
@@ -31,14 +33,15 @@ class UserController extends Controller
 
         //RENDERING VIEW
         return view('users', [
-            'authUser' => $authUser,
+            'authUser' => $this->authUser,
             'permissionsController' => $permissionsController,
-            'permissionGroups' => $permissionGroups
+            'permissionGroups' => $permissionGroups,
+            'id' => $id
         ]);
     }
 
     public function new(Request $request) {
-        $authUser = AuthController::getAuthUser();
+        $authUser = AuthHandler::getAuthUser();
 
         if($request->hasFile('image') && $request->image->isValid()) {
             $request->validate([
@@ -93,10 +96,6 @@ class UserController extends Controller
         $newUser = User::create($data);
 
         Notification::send($newUser, new CreateUserNotification($authUser, $newUser, $passwordToMail));
-
-        $pusherMessage = "Uma nova conta de acesso ao Painel Administrativo foi criado pelo usuário ".$authUser->name."";
-
-        event(new UserRegistration($pusherMessage));
 
         return redirect(route("users"));
     }
@@ -153,11 +152,13 @@ class UserController extends Controller
             ]);
         }
 
-        if($request->password) {
+        if($request->password !== null) {
             $request->validate([
                 'password' => 'min:6',
                 'new_password' => 'min:6',
             ]);
+        } else {
+            $request->password = $user->password;
         }
 
         $data = $request->only([
@@ -170,7 +171,6 @@ class UserController extends Controller
             'permission_id',
             'status'
         ]);
-
 
         $data['image_id'] = $imageSend;
 
@@ -205,45 +205,8 @@ class UserController extends Controller
                 $image->delete();
             }
         }
-
         $user->delete();
 
         return redirect('users');
-    }
-
-    public static function processUsersListInfo($usersList, $permissionGroups) {
-        //CHANGE PERMISSION ID FOR TEXT
-        $users = [];
-        foreach ($usersList as $user) {
-            foreach ($permissionGroups as $permission) {
-                if($user['permission_id'] == $permission['id']) {
-                    $user['permissionName'] = $permission['name'];
-                }
-            }
-
-            if(! $user['image']) {
-                $user['image'] = User::find($user['id'])->getImage->name;
-            }
-
-            $users[] = $user;
-        }
-
-        return $users;
-    }
-
-    public static function processUserInfo($user, $permissionGroups) {
-        //CHANGE PERMISSION ID FOR TEXT
-
-        foreach ($permissionGroups as $permission) {
-            if($user->permission_id == $permission->id) {
-                $user->permissionName = $permission->name;
-            }
-        }
-
-        if(! $user->image) {
-            $user->image = User::find($user['id'])->getImage->name;
-        }
-
-        return $user;
     }
 }

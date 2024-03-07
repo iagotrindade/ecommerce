@@ -5,7 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Client;
+use App\Models\User;
+use App\Models\PurchasedProducts;
 
 class Order extends Model
 {
@@ -14,13 +17,15 @@ class Order extends Model
     protected $fillable = [
         'id',
         'code',
-        'client_name',
-        'payment_type',
-        'payment_status',
-        'processing_status',
-        'total_amount',
+        'payment_id',
         'order_city',
-        'created_at',
+        'payment_type',
+        'costumer_id',
+        'type',
+        'status',
+        'total_amount',
+        'shipping_amount',
+        'user_id',
         'coupon_id'
     ];
 
@@ -32,11 +37,20 @@ class Order extends Model
 
     public function client()
     {
-        return $this->belongsTo(Client::class, 'client_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function pruchasedItems()
+    public function purchasedProducts()
     {
         return $this->hasMany(PurchasedProducts::class, 'order_id');
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'purchased_products', 'order_id', 'product_id');
+    }
+
+    public function purchasedProductAddons() {
+        return $this->hasMany(PurchasedProductAddons::class);
     }
 }

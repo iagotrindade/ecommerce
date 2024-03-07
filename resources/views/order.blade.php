@@ -1,184 +1,144 @@
-<x-adm_layout title="Pedidos" userName="{{$authUser->name}}" userImage="{{$authUser->image}}" activeMenu="orders">
+<x-adm_layout title="Pedidos" activeMenu="orders" :user="$user">
     <div class="order-area">
-        <div class="back-button-area">
-            <a href="{{route('orders')}}">
-                <i class='bx bxs-chevron-left'></i>
-            </a>
-        </div>
+        <div class="order-top-info-area default-flex-column">
+            <div class="order-first-info-area default-flex-between">
+                <h2>{{$order->client->name}}</h2>
 
-         <div class="order-number">
-            <h2>{{$order->code}}</h2>
-        </div>
+                <p class="order-date">Pedido feito em {{$order->order_date}}</p>
 
-        <div class="order-status-area default-flex">
-            <p class="green-status">Ativado</p>
-            <p class="red-status">Desativado</p>
-        </div>
-
-        <div class="order-date-info">
-            {{$order->order_date}}
-        </div>
-
-        <div class="refund-button-area">
-            <x-default_primary_button tag="a" text="Reembolso" type=""></x-default_primary_button>
-        </div>
-
-        <div class="order-product-item-area">
-            <div class="stock-info-area default-flex-column">
-                <h4>Estoque:</h4>
-                <p>19 Produtos</p>
+                <h2>{{$order->code}}</h2>
             </div>
 
-            <div class="product-info-area default-flex-between">
-                <div class="product-info-left-area default-flex">
-                    <img src="assets/images/products_images/camisa.png" alt="Imagem do Produto">
-
-                    <div class="product-info-text">
-                        <a href="">Blusa Preta Feminina</a>
-
-                        <p>Código: 0144458</p>
-                    </div>
+            <div class="order-second-info-area default-flex-between">
+                <div class="order-info-button-item default-flex">
+                    Entrega Prevista: 19:33
                 </div>
 
-                <div class="product-info-right-area default-flex">
-                    <p class="product-info-prices">R$ 39,90 X2</p>
-                    <p class="product-info-total-amount">R$ 79,90</p>
+                <div class="order-info-button-item default-flex">
+                    <a href="tel:{{$order->client->phone}}">
+                        {{$order->client->phone}}
+                    </a>
                 </div>
-            </div>
 
-            <div class="order-product-actions-area default-flex-end">
-                <x-default_secondary_button id="" text="Sem Estoque"></x-default_secondary_button>
-                <x-default_primary_button tag="a" type="" text="Processar Pedido"></x-default_primary_button>
+                <div class="order-info-button-item default-flex">
+                    @if ($order->client->is_new == 1)
+                        Cliente Novo!
+                    @else
+                        Cliente Veterano!
+                    @endif
+                </div>
             </div>
         </div>
 
-        <div class="order-products-values-area">
-            <div class="subtotal-amount-area default-flex-between">
-                <p>Subtotal</p>
-                <p>2 Itens</p>
-                <p class="default-flex-end">R$ 79,90</p>
-            </div>
-
-            <div class="shipping-amount-area default-flex-between">
-                <p>Frete</p>
-                <p>Frete Grátis (5.0Kg)</p>
-                <p class="default-flex-end">R$ 00,00</p>
-            </div>
-
-            <div class="total-amount-area default-flex-between">
-                <p>Total</p>
-                <p class="default-flex-end">R$ 79,90</p>
-            </div>
-
-            <div class="payment-type-area default-flex-between">
-                <p>Pago pelo Cliente</p>
-                <p class="default-flex-end">R$ 79,90</p>
-            </div>
-
-            <div class="order-payment-product-actions-area default-flex-end">
-                <x-default_secondary_button id="" text="Enviar Fatura"></x-default_secondary_button>
-                <x-default_primary_button tag="a" type="" text="Confirmar Pagamento"></x-default_primary_button>
-            </div>
+        <div class="order-status default-flex" style="background-color: {{$order->status_color}};">
+            <p>{{$order->status}}</p>
         </div>
 
-        <div class="timeline-area">
-            <h3>Cronograma</h3>
+        <div class="time-to-accept-area default-flex-between">
+            <p>
+                @if ($order->accept_time <= 10)
+                    {{10 - $order->accept_time}} minutos para aceitar o pedido!
+                @else
 
-            <div class="default-flex">
-                <div class="timeline-item default-flex-column-start">
-                    <p>E-mail de confirmação enviado</p>
-                    <div class="time-line-event default-flex">
-                        <div class="timeline-line-left"></div>
-                        <i class='bx bxs-circle'></i>
-                        <div class="timeline-line-right"></div>
+                    O tempo para aceitar o pedido expirou!
+                @endif
+            </p>
+
+            @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                    <p>{{$error}}</p>
+                @endforeach
+
+            @else
+                <a href="{{route('refund', $order->id)}}" class="refund-order default-flex">
+                    <p>Reembolsar</p>
+
+                    <img src="{{url('assets/images/panel-icons/round_arrow.png')}}" alt="Reembolsar">
+                </a>
+            @endif
+        </div>
+
+        <div class="order-product-items-area">
+
+            @foreach ($order->purchasedProducts as $purchasedProduct)
+                <div class="order-product-item default-flex-column">
+                    <h3>{{$purchasedProduct->product->name}}</h3>
+
+                    <div class="order-product-addons default-flex-between">
+                        <p class="order-addons">
+                            {{$purchasedProduct->product->description}}
+                        </p>
+
+                        <p>R$ {{$purchasedProduct->product->price}}</p>
                     </div>
-                    <a href="">Enviar E-mail</a>
-                </div>
 
-                <div class="timeline-item default-flex-column-start">
-                    <p>Pagamento feito com sucesso</p>
-                    <div class="time-line-event default-flex">
-                        <div class="timeline-line-left"></div>
-                        <i class='bx bxs-circle'></i>
-                        <div class="timeline-line-right"></div>
-                    </div>
-                </div>
-
-                <div class="timeline-item default-flex-column-start">
-                    <p>Pedido em processamento</p>
-                    <div class="time-line-event default-flex">
-                        <div class="timeline-line-left"></div>
-                        <i class='bx bxs-circle'></i>
-                        <div class="timeline-line-right"></div>
-                    </div>
-                </div>
-
-                <div class="timeline-item default-flex-column-start">
-                    <p>Pedido Processado</p>
-                    <div class="time-line-event default-flex">
-                        <div class="timeline-line-left"></div>
-                        <i class='bx bxs-circle'></i>
-                        <div class="timeline-line-right"></div>
-                    </div>
-                </div>
-
-                <div class="timeline-item default-flex-column-start">
-                    <p>Pedido Enviado a transportadora</p>
-                    <div class="time-line-event default-flex">
-                        <div class="timeline-line-left"></div>
-                        <i class='bx bxs-circle'></i>
-                        <div class="timeline-line-right"></div>
+                    <div class="order-additional-addons default-flex-column">
+                        <h3>*Adicionais</h3>
+                        <!--PROBLEMA ESTÁ AQUI, VERIFICAR E CORRIGIR-->
+                        @foreach ($purchasedProduct->productAddons as $addon)
+                            <p class="order-addons">+ {{$addon->quantity.' '.$addon->addon->name}}</p>
+                        @endforeach
                     </div>
                 </div>
+            @endforeach
 
-                <div class="timeline-item default-flex-column-start">
-                    <p>Pedido em rota de entrega</p>
-                    <div class="time-line-event default-flex">
-                        <div class="timeline-line-left"></div>
-                        <i class='bx bxs-circle'></i>
-                        <div class="timeline-line-right"></div>
-                    </div>
-                    <a href="">Verificar andamento</a>
-                </div>
-
-                <div class="timeline-item default-flex-column-start">
-                    <p>Pedido entregue ao cliente</p>
-                    <div class="time-line-event default-flex">
-                        <div class="timeline-line-left"></div>
-                        <i class='bx bxs-circle'></i>
-                        <div class="timeline-line-right"></div>
-                    </div>
-                </div>
+            <div class="order-product-item default-flex-between">
+                <h3>Entrega</h3>
+                <h3>R$ {{$order->shipping_amount}}</h3>
             </div>
+
+            <div class="order-product-item default-flex-between">
+                <h3>Total</h3>
+                <h3>R$ {{$order->totalAmount}}</h3>
+            </div>
+
+            @if ($order->payment_type != 'PIX')
+                <div class="order-product-item default-flex-between">
+                    <div class="payment-obs-area">
+                        <h4>Cobrar do cliente na hora da entrega - Dinheiro</h4>
+                        <p>O entregador deverá cobrar este valor na hora da entrega</p>
+                    </div>
+
+                    <h3>R$ {{$order->totalAmount}}</h3>
+                </div>
+            @endif
         </div>
 
         <div class="observation-area">
             <h4>Observações</h4>
-            <p>Não á observações do cliente.</p>
+
+            <p>
+                @if (!empty($order->obs))
+                    {{$order->obs}}
+                @else
+                    Não á observações do cliente.
+                @endif
+
+            </p>
         </div>
 
         <div class="client-info-area">
             <div class="basic-info">
                 <h4>Cliente</h4>
-                <p>Iago Silva</p>
-                <a href="">Ver Perfil</a>
+                <p>{{$order->client->name}}</p>
+                <a href="{{route('users', $order->client->id)}}">Ver Perfil</a>
             </div>
 
             <div class="contact-info">
                 <h4>Informações de Contato</h4>
-                <a href="">iago23st1@gmail.com</a>
-                <p>51991657516  </p>
+                <a href="mailto:{{$order->client->email}}">{{$order->client->email}}</a>
+                <p>{{$order->client->phone}}</p>
             </div>
 
             <div class="shipping-info">
                 <h4>Endereço de Entrega</h4>
-                <p>Iago Silva</p>
-                <p>Rua San Felipe 66 - Stella Maris</p>
-                <p>Cep: 33333-222</p>
+                <p>{{$order->client->name}}</p>
+                <p>{{$order->client->address->address}}</p>
+                <p>Cep: {{$order->client->address->cep}}</p>
                 <p>Casa</p>
-                <p>Referencia: Em frente a um campo</p>
+                <p>Referencia: {{$order->client->address->complement}}</p>
 
-                <a href="">Ver no Mapa</a>
+                <a href="https://www.google.com/maps?q={{$order->client->address->address}}" target="_blank">Ver no Mapa</a>
             </div>
 
 
@@ -187,5 +147,11 @@
                 <p>Usar Endereço de entrega</p>
             </div>
         </div>
+
+        <div class="order-actions-area default-flex-between">
+            <a href="" class="cancel-order-button">Cancelar</a>
+            <a href="" class="confirm-order-button default-flex">Confirmar</a>
+        </div>
+    </div>
 </x-adm_layout>
 

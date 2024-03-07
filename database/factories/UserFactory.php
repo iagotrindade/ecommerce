@@ -20,6 +20,8 @@ class UserFactory extends Factory
     {
         return [
             'name' => 'Iago Silva',
+            'cpf' => fake()->cpf(),
+            'customer_id' => Str::random(18),
             'image_id' => 1,
             'username' => 'iago@adm',
             'phone' => '51991657516',
@@ -27,7 +29,7 @@ class UserFactory extends Factory
             'status' => 'Ativado',
             'email' => 'iago23st1@gmail.com',
             'email_verified_at' => now(),
-            'password' => Hash::make('123456'), // password
+            'password' => Hash::make('12345678'), // password
             'remember_token' => Str::random(10),
         ];
     }

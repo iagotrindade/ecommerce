@@ -1,4 +1,4 @@
-<x-adm_layout title="Usuários" userName="{{$authUser->name}}" userImage="{{$authUser->image}}" activeMenu="users" pastSearchFunction="searchUsers">
+<x-adm_layout :user="$authUser" title="Usuários" activeMenu="users">
     <div class="users-area">
         <div class="users-area-top default-flex-between">
             <h1 class="users-title">Gerenciar Usuários</h1>
@@ -25,7 +25,7 @@
         </div>
 
         <div class="users-table-area">
-            <livewire:adm-users-table/>
+            <livewire:adm-users-table :id="$id"/>
 
             <x-add_users_modal userPermission="{{$authUser['permissionName']}}">
                 @foreach ($permissionGroups as $permission)
@@ -34,6 +34,4 @@
             </x-add_users_modal>
         </div>
     </div>
-
-
 </x-adm_layout>

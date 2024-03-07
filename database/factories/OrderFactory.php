@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\Client;
+use App\Models\User;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
@@ -18,45 +18,44 @@ class OrderFactory extends Factory
      */
     public function definition(): array
     {
-        $paymentStatus = rand(1,3);
-        $processingStatus = rand(1,3);
+        $random = rand(1,3);
 
-        switch ($paymentStatus) {
+        switch ($random) {
             case 1:
-                $paymentStatus = 'Pago';
+                $status = 'Cancelado';
                 break;
 
             case 2:
-                $paymentStatus = 'Pendente';
+                $status = 'Pendente';
                 break;
 
             case 3:
-                $paymentStatus = 'Cancelado';
+                $status = 'Aceito';
                 break;
         }
 
-        switch ($processingStatus) {
+        switch ($random) {
             case 1:
-                $processingStatus = 'Processado';
+                $type = 'Delivery';
                 break;
 
             case 2:
-                $processingStatus = 'Não Processado';
+                $type = 'Mesa';
                 break;
 
             case 3:
-                $processingStatus = 'Cancelado';
+                $type = 'Delivery';
                 break;
         }
 
         return [
             'code' => "#".rand(10000, 99999),
-            'client_id' => Client::all()->random(),
-            'client_name' => fake()->name(30),
+            'user_id' => User::all()->random(),
             'payment_type' => rand(1,4),
-            'payment_status' => $paymentStatus,
-            'processing_status' => $processingStatus,
+            'type' => $type,
+            'status' => $status,
             'coupon_id' => 1,
+            'obs' => fake()->sentence(),
             'order_city' => fake()->city(),
             'total_amount' => rand(99,1999)
         ];

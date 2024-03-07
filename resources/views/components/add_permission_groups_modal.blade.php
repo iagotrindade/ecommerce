@@ -18,8 +18,9 @@
         </div>
 
         <div class="buttons-area default-flex-end">
-            <x-default_secondary_button href="" text="Cancelar" id="close-permissions-user-modal-button"></x-default_secondary_button>
-            <x-default_primary_button tag="button" text="Criar Grupo" type="submit"></x-default_primary_button>
+            <x-buttons.default_secondary_button href="" text="Cancelar" id="close-permissions-user-modal-button"></x-buttons.default_secondary_button>
+
+            <x-buttons.default_primary_button tag="button" text="Criar Grupo" type="submit"></x-buttons.default_primary_button>
         </div>
     </form>
 </div>

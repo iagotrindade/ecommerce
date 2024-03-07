@@ -98,11 +98,14 @@ return [
          'image' => 'Imagem',
 		 'email' => 'E-mail',
 		 'name' => 'Nome',
+         'description' => 'Descrição',
          'username' => 'Nome de usuário',
 		 'password' => 'Senha',
 		 'password_confirm' => 'Confirmação de senha',
 		 'message' => 'Mensagem',
-         'permission_id' => 'Perfil'
+         'permission_id' => 'Perfil',
+         'price' => 'Preço',
+         'discount' => 'Desconto'
 	 ],
 
 ];

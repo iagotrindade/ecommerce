@@ -9,34 +9,33 @@ use App\Models\Notification;
 
 class HeaderNotificationArea extends Component
 {
-    public $modalStatus;
-    public $notifications;
+    public $user;
+    public $newNotificationCount;
+    public $notificationAreaDisplay = 'none';
 
     public function render()
     {
-        $this->notifications = Notification::all();
-
-        foreach ($this->notifications as $notification) {
-            $notification->title = json_decode($notification->data)->title;
-            $notification->body = json_decode($notification->data)->message;
-        }
-
-        if($this->modalStatus === null) {
-            $this->modalStatus = 'none';
-        }
-
         return view('livewire.header-notification-area');
     }
 
-    public function openNotifications($status) {
+    public function mount($user)
+    {
+        $this->user = $user;
+        $this->newNotificationCount = count($this->user->unreadNotifications);
+    }
 
-        if($status === "flex") {
-            $this->modalStatus = 'none';
+    public function readNotifications() {
+        if($this->notificationAreaDisplay === 'none') {
+            $this->notificationAreaDisplay = 'block';
         }
 
         else {
-            $this->notifications = Notification::all();
-            $this->modalStatus = 'flex';
+            $this->notificationAreaDisplay = 'none';
+            foreach ($this->user->unreadNotifications as $notification) {
+                $notification->markAsRead();
+            }
         }
+
+        $this->newNotificationCount = 0;
     }
 }

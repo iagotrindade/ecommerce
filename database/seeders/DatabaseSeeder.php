@@ -12,6 +12,12 @@ use App\Models\PermissionGroups;
 use App\Models\PermissionItems;
 use App\Models\PermissionLinks;
 use App\Models\Product;
+use App\Models\PurchasedProducts;
+use App\Models\ProductAddons;
+use App\Models\Adresses;
+use App\Models\PurchasedProductAddons;
+use App\Models\Categories;
+use App\Models\QrCodes;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,10 +26,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Client::factory(20)->create();
-
-        Order::factory(50)->create();
-
         $this->call([
             PermissionGroupsSeeder::class
         ]);
@@ -40,8 +42,19 @@ class DatabaseSeeder extends Seeder
 
         User::factory(1)->create();
 
+        Categories::factory(3)->create();
 
-        Product::factory(400)->create();
+        Product::factory(20)->create();
+
+        //Order::factory(5)->create();
+
+        //ProductAddons::factory(15)->create();
+
+        //PurchasedProducts::factory(7)->create();
+
+        //PurchasedProductAddons::factory(14)->create();
+
+        //Adresses::factory(1)->create();
     }
 
 

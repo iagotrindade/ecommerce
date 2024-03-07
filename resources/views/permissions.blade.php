@@ -1,4 +1,4 @@
-<x-adm_layout title="Permissões" activeMenu="permissions" userName="{{$authUser->name}}" userImage="{{$authUser->image}}" pastSearchFunction="searchOrders">
+<x-adm_layout :user="$authUser" title="Permissões" activeMenu="permissions">
 
     <div class="permissions-area">
         <div class="permissions-area-top default-flex-between">

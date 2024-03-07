@@ -25,5 +25,11 @@ class PermissionGroupsSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+        DB::table('permission_groups')->insert([
+            'name' => 'Cliente',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }

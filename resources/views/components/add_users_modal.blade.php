@@ -39,8 +39,8 @@
         </div>
 
         <div class="default-flex-end">
-            <x-default_secondary_button id="close-add-user-modal-button" text="Cancelar"></x-default_secondary_button>
-            <x-default_primary_button tag="button" type="submit" text="Criar Usuário"></x-default_primary_button>
+            <x-buttons.default_secondary_button id="close-add-user-modal-button" text="Cancelar"></x-buttons.default_secondary_button>
+            <x-buttons.default_primary_button tag="button" type="submit" text="Criar Usuário"></x-buttons.default_primary_button>
         </div>
 
     </form>

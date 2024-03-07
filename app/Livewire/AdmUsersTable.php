@@ -10,12 +10,15 @@ use App\Models\PermissionGroups;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Handlers\AuthHandler;
+use App\Http\Handlers\UserHandler;
 use Livewire\Attributes\On;
 
 class AdmUsersTable extends Component
 {
     public $authUser;
-    public $users = null;
+    public $users;
+    public $searchUser;
     #[Rule('image|max:1024')]
     public $userEditedTemp;
     public $userEditedImageTemp;
@@ -27,13 +30,16 @@ class AdmUsersTable extends Component
 
     public function render()
     {
-        $this->authUser = AuthController::getAuthUser();
+        $this->authUser = AuthHandler::getAuthUser();
         $this->permissionGroups = PermissionGroups::all();
 
-        if($this->users === null) {
-            $users = User::all();
+        if(is_string($this->users)) {
+            $this->searchUser = UserHandler::processUserInfo(User::find($this->users), $this->permissionGroups);
+        }
 
-            $this->users = UserController::processUsersListInfo($users, $this->permissionGroups);
+        else {
+            $users = User::all();
+            $this->users = UserHandler::processUsersListInfo($users, $this->permissionGroups);
         }
 
         //GETTING PERMISSION CONTROLLER
@@ -46,7 +52,7 @@ class AdmUsersTable extends Component
 
     public function openEditModal($userId) {
         if ($this->userEdited === null) {
-            $this->userEdited = UserController::processUserInfo(User::find($userId), $this->permissionGroups);
+            $this->userEdited = UserHandler::processUserInfo(User::find($userId), $this->permissionGroups);
 
             $this->userEditedTemp = [
                 'id' => $this->userEdited->id,
@@ -79,11 +85,15 @@ class AdmUsersTable extends Component
 
     #[On('searchUsers')]
     public function searchUsers($users) {
-        $this->users = UserController::processUsersListInfo($users, $this->permissionGroups);
+        $this->users = UserHandler::processUsersListInfo($users, $this->permissionGroups);
     }
 
     public function updatedUserEditedImageTemp()
     {
         $this->userEditedTemp['image'] = $this->userEditedImageTemp;
+    }
+
+    public function mount($id) {
+        $this->users = $id;
     }
 }

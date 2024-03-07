@@ -19,8 +19,10 @@ return new class extends Migration
             $table->foreignIdFor(Image::class)->references('id')->on('images')->onDelete('cascade');
             $table->string('secondary_images')->nullable();
             $table->string('status');
+            $table->string('discount_status');
+            $table->string('discount')->nullable();
             $table->float('price');
-            $table->string('quantity')->default('0');
+            $table->float('quantity')->default(0);
             $table->timestamps();
         });
     }

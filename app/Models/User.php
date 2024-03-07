@@ -6,9 +6,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\PermissionGroups;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use App\Notifications\ResetPasswordNotification;
+use App\Models\PasswordResetTokens;
+use App\Models\Favorite;
+use App\Models\Adresses;
 
 class User extends Authenticatable
 {
@@ -23,6 +29,8 @@ class User extends Authenticatable
         'name',
         'image_id',
         'username',
+        'cpf',
+        'customer_id',
         'phone',
         'permission_id',
         'email',
@@ -52,11 +60,35 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function sendPasswordResetNotification($token): void
+     {
+        $url = url('/change_password?token='.$token);
+
+        $resetList = PasswordResetToken::all();
+
+        foreach ($resetList as $data) {
+            if(Hash::check($token, $data->token)) {
+                $user = User::where('email', $data->email)->first();
+            }
+        }
+
+        $this->notify(new ResetPasswordNotification($url, $user->name));
+     }
+
     public function getImage() {
         return $this->belongsTo(Image::class, 'image_id');
     }
 
     public function permission() {
         return $this->hasOne(PermissionGroups::class, 'id', 'permission_id');
+    }
+
+    public function favorites() {
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function address()
+    {
+        return $this->hasOne(Adresses::class, 'user_id');
     }
 }

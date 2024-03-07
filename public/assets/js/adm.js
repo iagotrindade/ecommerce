@@ -130,6 +130,7 @@ if(document.querySelectorAll('.users-filter-button') !== null) {
 
     userFilters.forEach(element => {
         element.addEventListener('click', () => {
+            console.log(element.innerHTML);
             switch (element.innerHTML) {
                 case "Todos":
                     document.querySelector('.users-filter-active').classList.remove("users-filter-active");
@@ -146,8 +147,6 @@ if(document.querySelectorAll('.users-filter-button') !== null) {
                     hideAllUsers()
 
                     document.querySelectorAll("#user-permission").forEach(e => {
-
-                        console.log(e.innerHTML);
                         if(e.innerHTML === "Administrador") {
                             e.parentElement.style.display = 'table-row';
                         }
@@ -175,8 +174,6 @@ if(document.querySelectorAll('.users-filter-button') !== null) {
                     hideAllUsers()
 
                     document.querySelectorAll("#user-status").forEach(e => {
-
-                        console.log(e.innerHTML);
                         if(e.innerHTML === "Ativado") {
                             e.parentElement.parentElement.style.display = 'table-row';
                         }
@@ -478,10 +475,24 @@ if(document.querySelector('.add-permission-button') != null) {
     })
 }
 
-//Close notification Modal
 
-document.querySelector('.close-notification-modal').addEventListener('click', () => {
-    let notificationModal = document.querySelector('.pusher-alert-area');
+function openAddCategoryModal() {
+    var modal = document.querySelector('.add-category-modal');
+    var modalFiltro = document.getElementById('modalFilter');
 
-    notificationModal.style.display = 'none';
-})
+    modal.style.display = 'block';
+    modalFiltro.style.display = 'block';
+}
+
+
+function openAddProductModal(categoryId) {
+    var modal = document.querySelector('.add-product-modal');
+    var modalFiltro = document.getElementById('modalFilter');
+
+    var categoryInput = document.querySelector('.category-id-input');
+
+    categoryInput.value = categoryId;
+
+    modal.style.display = 'block';
+    modalFiltro.style.display = 'block';
+}

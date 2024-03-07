@@ -22,8 +22,8 @@
                 <a class="delete-permission-group-button" href="#" onclick="confirmDel('Tem certeza que deseja excluir este grupo de permissão?')">Excluir Grupo de Permissão</a>
 
             <div class="default-flex">
-                <x-default_secondary_button href="" text="Cancelar" id="close-edit-permissions-user-modal-button"></x-default_secondary_button>
-                <x-default_primary_button tag="button" text="Salvar Alterações" type="submit"></x-default_primary_button>
+                <x-buttons.default_secondary_button href="" text="Cancelar" id="close-edit-permissions-user-modal-button"></x-buttons.default_secondary_button>
+                <x-buttons.default_primary_button tag="button" text="Salvar Alterações" type="submit"></x-buttons.default_primary_button>
             </div>
         </div>
     </form>

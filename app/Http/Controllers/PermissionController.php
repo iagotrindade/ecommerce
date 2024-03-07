@@ -7,14 +7,17 @@ use App\Models\PermissionGroups;
 use App\Models\User;
 use App\Models\PermissionItems;
 use App\Models\PermissionLinks;
+use App\Http\Handlers\authHandler;
 use Illuminate\support\Facades\DB;
 use Illuminate\Support\Arr;
 
 class PermissionController extends Controller
 {
+    public $authUser;
+
     public function index() {
         //GETTING LOGGEDUSER, PERMISSIONS LIST AND PERMISSIONS ITEMS
-        $authUser = AuthController::getAuthUser();
+        $this->authUser = AuthHandler::getAuthUser();
         $permissionGroups = PermissionGroups::all();
         $permissionItems = PermissionItems::all();
         $permissionLinks = PermissionLinks::all();
@@ -35,7 +38,7 @@ class PermissionController extends Controller
 
         //RENDERING VIEW
         return view('permissions', [
-            'authUser' => $authUser,
+            'authUser' => $this->authUser,
             'permissionsController' => $permissionsController,
             'permissionGroups' => $permissionGroups,
             'permissionItems' => $permissionItems,
@@ -98,8 +101,7 @@ class PermissionController extends Controller
             }
         }
 
-
-        return redirect('permissions');
+        return redirect(route('permissions'));
     }
 
     public function delete(Request $request) {

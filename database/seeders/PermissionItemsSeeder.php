@@ -78,5 +78,23 @@ class PermissionItemsSeeder extends Seeder
             'slug' => 'delete_permission_group',
             'type' => 'permissions_access'
         ]);
+
+        DB::table('permission_items')->insert([
+            'name' => 'Criar QRCode',
+            'slug' => 'register_new_qrcode',
+            'type' => 'qrcode_access'
+        ]);
+
+        DB::table('permission_items')->insert([
+            'name' => 'Editar QRCode',
+            'slug' => 'edit_qrcode',
+            'type' => 'qrcode_access'
+        ]);
+
+        DB::table('permission_items')->insert([
+            'name' => 'Deletar QRCode',
+            'slug' => 'delete_qrcode',
+            'type' => 'qrcode_access'
+        ]);
     }
 }
