@@ -9,7 +9,7 @@
             </li>
 
             <li>
-                <a href="{{route("home")}}" class="default-flex-column">
+                <a class="default-flex-column" wire:click="openMobileNotifications()">
                     <i class='bx bxs-bell'></i>
                     <p>Notificações</p>
                 </a>
@@ -33,7 +33,7 @@
             </li>
 
             <li class="">
-                <a href="{{route("home")}}" class="default-flex-column">
+                <a class="default-flex-column" wire:click="openProfileTab()">
                     <i class='bx bxs-user'></i>
                     <p>Perfil</p>
                 </a>
