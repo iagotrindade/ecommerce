@@ -17,6 +17,7 @@ use App\Models\Order;
 use App\Models\PurchasedProducts;
 use App\Models\PurchasedProductAddons;
 use App\Models\Adresses;
+use Illuminate\Support\Facades\Config;
 
 class CartArea extends Component
 {
@@ -31,6 +32,8 @@ class CartArea extends Component
     public $chosenAddons = [];
     public $addonQuantities = [];
     public $cart = [];
+    public $mobilePaymentSiteTab = 'block';
+    public $mobilePaymentHomeTab = 'none';
 
     //Shipping Properties
     public $userAssas;
@@ -52,6 +55,7 @@ class CartArea extends Component
     public $whatsapp = '';
     public $cepError = '';
     public $inputsError = '';
+    public $orderType = '';
 
     //Payment Properties
 
@@ -133,11 +137,13 @@ class CartArea extends Component
     {
         $subtotal = 0;
 
-        foreach (session('cart') as $product) {
-            $subtotal += $product['product']['price'] * $product['quantity'];
+        if(session('cart')) {
+            foreach (session('cart') as $product) {
+                $subtotal += $product['product']['price'] * $product['quantity'];
 
-            foreach ($product['addons'] as $addon) {
-                $subtotal += $addon['price'] * $addon['quantity'];
+                foreach ($product['addons'] as $addon) {
+                    $subtotal += $addon['price'] * $addon['quantity'];
+                }
             }
         }
 
@@ -230,7 +236,7 @@ class CartArea extends Component
                 }
 
                 else {
-                    $this->inputsError = "Preencha os Campos Cep, Identifcação, Nome, CPF, Número, E-mail, e Whatsapp!";
+                    $this->inputsError = "Preencha os Campos Cep, Identificação, Nome, CPF, Número, E-mail, e Whatsapp!";
 
                     break;
                 }
@@ -298,7 +304,7 @@ class CartArea extends Component
     }
 
     public function calcDistance () {
-        $geoInfo = Http::get("https://maps.googleapis.com/maps/api/geocode/json?address={$this->zipcode}&key=AIzaSyD0Tjk2NMkeYfJXWotFZ2E2vb5D5IqDS3E")->object();
+        $geoInfo = Http::get("https://maps.googleapis.com/maps/api/geocode/json?address={$this->zipcode}&key=".env('MAPS_API_KEY')."")->object();
 
         $this->compiledAddress = $geoInfo->results[0]->formatted_address;
 
@@ -316,7 +322,7 @@ class CartArea extends Component
         $response = $client->post('https://routes.googleapis.com/directions/v2:computeRoutes', [
             'headers' => [
                 'Content-Type' => 'application/json',
-                'X-Goog-Api-Key' => 'AIzaSyD0Tjk2NMkeYfJXWotFZ2E2vb5D5IqDS3E',
+                'X-Goog-Api-Key' => env('MAPS_API_KEY'),
                 'X-Goog-FieldMask' => 'routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline'
             ],
             'json' => [
@@ -370,6 +376,18 @@ class CartArea extends Component
 
     public function changePaymentType($type) {
         $this->paymentType = $type;
+    }
+
+    public function changeMobilePaymentTab($type) {
+        if($type == "site") {
+            $this->mobilePaymentSiteTab = "block";
+            $this->mobilePaymentHomeTab = "none";
+        }
+
+        else {
+            $this->mobilePaymentSiteTab = "none";
+            $this->mobilePaymentHomeTab = "block";
+        }
     }
 
     public function formatCurrency() {

@@ -31,6 +31,14 @@
 
         <main>
             @if ($stageOneDisplay == 'flex')
+                <div class="mobile-cart-header default-flex-between">
+                    <a href="{{route('home')}}">
+                        <i class='bx bx-chevron-left'></i>
+                    </a>
+
+                    <h3>Carrinho</h3>
+                </div>
+
                 <div class="cart-area default-flex-between" style="display: {{ $stageOneDisplay }}">
                     <div class="cart-area-left">
                         @foreach (session('cart') as $product)
@@ -87,6 +95,10 @@
                             <h3>Carrinho de Compras</h3>
                         </div>
 
+                        <div class="mobile-keep-shopping-button-area">
+                            <a href="{{route('home')}}">Adicionar mais Items</a>
+                        </div>
+
                         <div class="cart-prices-info-area">
                             <div class="cart-subtotal-area default-flex-between">
                                 <p>Sub Total</p>
@@ -138,6 +150,14 @@
                 <h3>Informar Endereço</h3>
             </div>
 
+            <div class="mobile-cart-header default-flex-between">
+                <a href="{{route('home')}}">
+                    <i class='bx bx-chevron-left'></i>
+                </a>
+
+                <h3>Informar Endereço</h3>
+            </div>
+
             <p class="cart-shipping-title-inputs-warning">{{ $inputsError }}</p>
 
             <div class="cart-shipping-area-inputs">
@@ -173,7 +193,7 @@
                 <div class="cart-shipping-area-input-group default-flex-around">
                     <div class="shipping-input-item default-flex-column w-100">
                         <label for="street">Rua</label>
-                        <div class="default-flex-start w-95">
+                        <div class="street-readonly-input default-flex-start w-95">
                             <input class="w-100 input-blocked" type="text" name="street" id="street" readonly
                                 wire:model="street">
                             <i class='bx bxs-lock'></i>
@@ -233,6 +253,84 @@
     @endif
 
     @if ($stageThreeDisplay == 'flex')
+        <div class="mobile-payment-area">
+            <div class="mobile-cart-header default-flex-between">
+                <a href="{{route('home')}}">
+                    <i class='bx bx-chevron-left'></i>
+                </a>
+
+                <h3>Pagamento</h3>
+            </div>
+
+            <div class="mobile-select-payment-type default-flex-between">
+                <div class="mobile-pix-payment" wire:click="changeMobilePaymentTab('site')">
+                    <p class="@if ($mobilePaymentSiteTab == 'block')
+                        mobile-payment-active
+                    @endif">Pague pelo Site</p>
+                </div>
+
+                <div class="mobile-cart-money-payment" wire:click="changeMobilePaymentTab('home')">
+                    <p @if ($mobilePaymentHomeTab == 'block')
+                    class="mobile-payment-active"
+                @endif>Pague na Entrega</p>
+                </div>
+            </div>
+
+            <div class="mobile-payment-content">
+                <div class="mobile-site-payment" style="display: {{$mobilePaymentSiteTab}}">
+                    <div class="pix-payment default-flex-start" wire:click="changePaymentType('pix')">
+                        <img src="{{ url('assets/images/site-icons/pix_icon.png') }}" alt="PIX">
+                        <div>
+                            <h4 @if ($paymentType == 'pix') class="payment-active" @endif>Pague com Pix</h4>
+                            <p>Use o QR Code ou Copie e cole o código</p>
+                        </div>
+
+                        @if ($paymentType == 'pix')
+                            <div class="w-100 default-flex-end">
+                                <i class='bx bx-check'></i>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="mobile-home-payment" style="display: {{$mobilePaymentHomeTab}}">
+                    <div class="mobile-money-payment default-flex-between">
+                        <div class="money-payment default-flex-start" wire:click="changePaymentType('money')">
+                            <img src="{{ url('assets/images/site-icons/money_icon.png') }}" alt="Dinheiro">
+                            <p @if ($paymentType == 'money') class="payment-active" @endif>Dinheiro</p>
+                            @if ($paymentType == 'money')
+                                <div class="w-100 default-flex-end">
+                                    <i class='bx bx-check'></i>
+                                </div>
+                            @endif
+                        </div>
+
+                        @if ($paymentType == 'money')
+                            <div class="money-input-item default-flex-column">
+                                <label for="money">Troco</label>
+                                <input class="w-95" type="text" name="money" id="money"
+                                    wire:model="valueBack" wire:change='formatCurrency()'>
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="card-payment default-flex-start" wire:click="changePaymentType('card')">
+                        <img src="{{ url('assets/images/site-icons/card_icon.png') }}" alt="Cartão">
+                        <p @if ($paymentType == 'card') class="payment-active" @endif>Cartão</p>
+                        @if ($paymentType == 'card')
+                            <div class="w-100 default-flex-end">
+                                <i class='bx bx-check'></i>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="finalize-purchase default-flex" wire:click="finalizePurchase()">
+                    <p>FINALIZAR</p>
+                </div>
+            </div>
+        </div>
+
         <div class="payment-area default-flex-between" style="display: {{ $stageThreeDisplay }}">
             <div class="payment-area-left w-60">
                 <div class="payment-area-left-holder">
@@ -422,6 +520,14 @@
     @endif
 
     @if (!empty($paymentAssas))
+        <div class="mobile-cart-header default-flex-between">
+            <a href="{{route('home')}}">
+                <i class='bx bx-chevron-left'></i>
+            </a>
+
+            <h3>Pagamento</h3>
+        </div>
+
         <div class="pay-qrcode-area" style="display: {{ $stageFourDisplay }}">
             <div class="default-flex-column w-100">
                 <div class="pay-qrcode-top-area default-flex-start w-100">
@@ -458,49 +564,23 @@
                     </div>
                 </div>
 
-                <div class="default-flex">
+                <div class="pix-mobile-case default-flex">
                     <div class="pix-code-area">
                         <p id="pixCode">{{ $pixQrcode->payload }}</p>
                     </div>
 
-                    <div class="copy-pix-code-button" id="copyCode">
+                    <div class="copy-pix-code-button" id="copyCode" onclick="copyPixCode()">
                         <p>Copiar</p>
                     </div>
                 </div>
             </div>
         </div>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var copyCode = document.getElementById('copyCode');
-                var pixCode = document.getElementById('pixCode');
-
-                copyCode.addEventListener('click', function() {
-                    // Seleciona o texto dentro do elemento <p>
-                    var range = document.createRange();
-                    range.selectNode(pixCode);
-                    window.getSelection().removeAllRanges(); // Limpa a seleção anterior
-                    window.getSelection().addRange(range);
-
-                    // Tenta copiar o texto selecionado
-                    try {
-                        document.execCommand('copy');
-                        alert('Texto copiado para a área de transferência.');
-                    } catch (err) {
-                        console.log('Erro ao copiar: ', err);
-                        alert('Não foi possível copiar o texto.');
-                    }
-
-                    // Limpa a seleção
-                    window.getSelection().removeAllRanges();
-                });
-            });
-        </script>
 
         @script
             <script>
                 setInterval(() => {
                     $wire.$refresh()
-                }, 3000)
+                }, 3000);
             </script>
         @endscript
     @endif
@@ -558,4 +638,30 @@
             });
         </script>
     @endscript
+
+
+    <script>
+        console.log('ok');
+        function copyPixCode() {
+            var copyCode = document.getElementById('copyCode');
+            var pixCode = document.getElementById('pixCode');
+
+            var range = document.createRange();
+            range.selectNode(pixCode);
+            window.getSelection().removeAllRanges(); // Limpa a seleção anterior
+            window.getSelection().addRange(range);
+
+            // Tenta copiar o texto selecionado
+            try {
+                document.execCommand('copy');
+                alert('Texto copiado para a área de transferência.');
+            } catch (err) {
+                console.log('Erro ao copiar: ', err);
+                alert('Não foi possível copiar o texto.');
+            }
+
+            // Limpa a seleção
+            window.getSelection().removeAllRanges();
+        }
+    </script>
 </div>

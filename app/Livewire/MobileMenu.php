@@ -5,17 +5,21 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\Attributes\On;
 
-class CartCountArea extends Component
+class MobileMenu extends Component
 {
     public $cartCount;
 
     public function render()
     {
-        return view('livewire.cart-count-area');
+        return view('livewire.mobile-menu');
     }
 
     #[On('updateCart')]
     public function updateCart($cartCount) {
         $this->cartCount = $cartCount;
+    }
+
+    public function openMobileSearch() {
+        $this->dispatch('openMobileSearch');
     }
 }

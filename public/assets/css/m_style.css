@@ -1,0 +1,105 @@
+.site-container {
+    width: 100%;
+    margin: 0;
+}
+
+.site-content-area {
+    width: 100%;
+}
+
+.site-main-area {
+    padding: 20px 20px;
+}
+
+.site-search-input input {
+    width: 400px;
+}
+
+.search-wrapper {
+    margin: 0;
+}
+
+.site-search-container {
+    right: 100px;
+    width: 400px;
+}
+
+.site-header-area form {
+    width: 400px;
+}
+
+.search-list {
+    max-width: 400px;
+}
+
+.header-cart-icon-area {
+    margin-right: 20px;
+}
+
+.site-header-area form {
+    width: 270px;
+}
+
+.site-products-actions {
+    margin-right: 20px;
+}
+
+.stage-line {
+    width: 22vw;
+}
+
+.cart-product-item-top h3 {
+    font-size: 18px;
+}
+
+.cart-prices-info-area {
+    font-size: 16px;
+}
+
+.cart-area-right {
+    width: 322px;
+}
+
+.cart-prices-info-area {
+    width: 281px;
+}
+
+.continue-shopping-button, .next-stage-button {
+    width: 281px;
+}
+
+.cart-shipping-area-inputs input {
+    height: 40px;
+}
+
+.payment-area {
+    padding: 16px;
+}
+
+.cart-products-area-item {
+    font-size: 14px;
+}
+
+.cart-products-area-item-value {
+    font-size: 16px;
+}
+
+.cart-summary-area-right {
+    width: 281px;
+}
+
+.final-payment-warning-area {
+    justify-content: flex-start;
+}
+
+.final-payment-warning-back-button {
+    margin-bottom: 100px;
+}
+
+.pay-qrcode-top-area {
+    justify-content: space-between;
+}
+
+.pay-qrcode-top-area i {
+    margin: 0;
+}

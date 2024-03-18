@@ -5,7 +5,7 @@
 
     <div>
         <ul class="sidebar-menu-list">
-            <li class="">
+            <li>
                 <a href="{{route("home")}}" class="default-flex-column menu-item @if($activeMenu=='carte') menu-active @endif">
                     <i class="bx bx-food-menu @if($activeMenu=='carte') menu-active @endif"></i>
                     <p>Cardápio</p>

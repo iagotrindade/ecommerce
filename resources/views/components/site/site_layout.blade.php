@@ -5,7 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel = "stylesheet" href="/assets/css/style.css"/>
+        <link rel="stylesheet" media="(max-width: 1200px)" href="/assets/css/m_style.css"/>
+        <link rel="stylesheet" media="(max-width: 950px)" href="/assets/css/t_style.css"/>
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
         @livewireStyles
         <title>Overfood - {{$title}}</title>
     </head>
@@ -13,6 +16,8 @@
     <body>
         <div class="default-flex site-container">
             <x-site.site_asside_menu activeMenu="{{$activeMenu}}" :user="$user"></x-site.site_asside_menu>
+
+            <livewire:mobile-menu :user="$user"></livewire:mobile-menu>
 
             <div class="site-content-area">
                 <header class="site-header-area default-flex-around">

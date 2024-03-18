@@ -102,6 +102,7 @@ class UserController extends Controller
 
     public function edit(Request $request) {
         $user = User::find($request->user_id);
+        $this->authUser = AuthHandler::getAuthUser();
 
         $oldImage = Image::find($user->getImage->id);
 
@@ -154,8 +155,8 @@ class UserController extends Controller
 
         if($request->password !== null) {
             $request->validate([
-                'password' => 'min:6',
-                'new_password' => 'min:6',
+                'password' => 'min:8',
+                'new_password' => 'min:8',
             ]);
         } else {
             $request->password = $user->password;
@@ -174,7 +175,7 @@ class UserController extends Controller
 
         $data['image_id'] = $imageSend;
 
-        if(Hash::check($data['password'], $user->password)) {
+        if(Hash::check($data['password'], $user->password) || $this->authUser->permission_id == 1) {
             $data['password'] = $request->new_password;
         }
 
@@ -182,12 +183,13 @@ class UserController extends Controller
             $data['password'] = $user->password;
         }
 
+
+
         $user->update($data);
         $user->save();
 
-        return redirect('users');
+        return redirect('usuarios');
     }
-
 
     public function delete(Request $request, $id) {
         $user = User::find($id);

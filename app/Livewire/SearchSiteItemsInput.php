@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Product;
 use Illuminate\Support\Facades\Session;
+use Livewire\Attributes\On;
 
 class SearchSiteItemsInput extends Component
 {

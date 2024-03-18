@@ -31,6 +31,7 @@ class SiteProductsArea extends Component
     public $cartIds;
     public $cartCount;
     public $searchProduct;
+    public $mobileSearchProducts;
 
     public function render()
     {
@@ -80,8 +81,22 @@ class SiteProductsArea extends Component
         return view('livewire.site-products-area', [
             'categories' => $this->categories,
             'favorites' => $this->favorites,
-            'filterCategory' => $this->filterCategory
+            'filterCategory' => $this->filterCategory,
+            'mobileSearchProducts' => $this->mobileSearchProducts
         ]);
+    }
+
+    #[On('searchSiteProducts')]
+    public function mobileSearchAction($searchTerm) {
+        if($searchTerm != "") {
+            $this->mobileSearchProducts = Product::where('name', 'like', ''.$searchTerm.'%')
+                                        ->where('status', 'Ativado')
+                                    ->get();
+        }
+
+        else {
+            $this->mobileSearchProducts = "";
+        }
     }
 
     public function filterProducts($categoryId) {
