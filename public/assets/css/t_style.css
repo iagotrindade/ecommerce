@@ -213,11 +213,22 @@
     width: auto;
 }
 
-
 /*CART TINY CSS*/
 
 .mobile-cart-header {
     display: flex;
+    margin-top: 10px;
+}
+
+.mobile-cart-header a {
+    color: var(--primary-color);
+}
+
+.mobile-cart-header h3 {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+    color: #54657E;
 }
 
 .cart-stages-area {
@@ -311,7 +322,7 @@
     background-color: #F5F3FF;
 }
 
-.cart-shipping-area-inputs input, .shipping-input-item {
+.cart-shipping-area-inputs input, .shipping-input-item, .mobile-user-data input {
     width: 100%;
     background-color: transparent;
 }
@@ -327,18 +338,18 @@
     display: none !important;
 }
 
-.mobile-select-payment-type {
+.mobile-select-payment-type, .mobile-select-notification-type {
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
-.mobile-pix-payment, .mobile-cart-money-payment {
+.mobile-pix-payment, .mobile-cart-money-payment, .mobile-notifications, .mobile-news {
     width: 50%;
     text-align: center;
     cursor: pointer;
 }
 
-.mobile-pix-payment p, .mobile-cart-money-payment p {
+.mobile-pix-payment p, .mobile-cart-money-payment p, .mobile-notifications p, .mobile-news p {
     width: 100%;
     padding-bottom: 15px;
     color: #D9D9D9;
@@ -347,7 +358,7 @@
     line-height: 19px;
 }
 
-.mobile-payment-active {
+.mobile-payment-active, .mobile-notifications-active {
     color: var(--primary-color) !important;
     border-bottom: 2px solid var(--primary-color);
 }
@@ -446,3 +457,151 @@
     box-shadow: none;
     background-color: transparent;
 }
+
+.mobile-notifications-area, .mobile-profile-area {
+    position: fixed; /* Posiciona a div fixa na tela */
+    top: 0; /* Define a posição superior da div como 0 */
+    left: 0; /* Define a posição esquerda da div como 0 */
+    width: 100%; /* Define a largura da div como 100% da tela */
+    height: 100%; /* Define a altura da div como 100% da tela */
+    background-color: #F5F3FF;
+    z-index: 998; /* Define o índice z da div como 9999 para que ela fique sobreposta a todos os outros elementos */
+}
+
+.my-notifications-area h3, .news-area h3 {
+    padding: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 16px;
+    color: #000000;
+}
+
+.mobile-notification-item {
+    padding: 10px;
+    border-bottom: 1px solid #D9D9D9;
+    align-items: flex-start;
+}
+
+.mobile-notification-content {
+    width: 100%;
+}
+
+.mobile-notification-item h5 {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #000000;
+}
+
+.mobile-notification-item p {
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 14px;
+    color: #777777;
+}
+
+.mobile-profile-area {
+    padding: 10px;
+}
+
+.profile-menu-area {
+    margin-top: 40px;
+}
+
+.profile-menu-item {
+    margin-bottom: 30px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: #000000;
+    cursor: pointer;
+}
+
+.mobile-logout-button-area {
+    margin-top: 40px;
+}
+
+.mobile-logout-button {
+    text-decoration: none;
+}
+
+.mobile-profile-my-data-tab, .mobile-profile-my-orders-tab, .mobile-profile-my-favorites-tab {
+    display: none;
+    position: fixed; /* Posiciona a div fixa na tela */
+    top: 0; /* Define a posição superior da div como 0 */
+    left: 0; /* Define a posição esquerda da div como 0 */
+    width: 100%; /* Define a largura da div como 100% da tela */
+    height: 100%; /* Define a altura da div como 100% da tela */
+    background-color: #F5F3FF;
+    z-index: 998; /* Define o índice z da div como 9999 para que ela fique sobreposta a todos os outros elementos */
+}
+
+.mobile-edit-user-data {
+    padding: 10px;
+}
+
+.update-user-data {
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16px;
+    color: #9E9E9E;
+    border: none;
+    background-color: transparent;
+}
+
+.mobile-edit-user-data form {
+    border-bottom: 1px solid #DFDFDF;
+    padding-bottom: 40px;
+    margin-bottom: 15px;
+}
+
+.add-new-address-button {
+    border: 1px solid var(--primary-color);
+    filter: drop-shadow(0px 0px 3px rgba(80, 65, 188, 0.3));
+    border-radius: 2px;
+    padding: 12px 20px;
+    margin-top: 10px;
+    color: #576DEA;
+    margin-bottom: 15px;
+}
+
+.add-new-address-left-area i { 
+    margin-right: 25px;
+}
+
+.add-new-address-right-area i { 
+    font-size: 32px;
+    color: #576DEA;
+}
+
+.user-addresses {
+    border: 1px solid var(--primary-color);
+    filter: drop-shadow(0px 0px 3px rgba(80, 65, 188, 0.3));
+    border-radius: 2px;
+    padding: 12px 20px;
+    margin-top: 10px;
+    color: #576DEA;
+    margin-bottom: 15px;
+    background-color: #FFFFFF;
+}
+
+.user-address-area {
+    align-items: flex-start;
+}
+
+.user-compiled-address {
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16px;
+    color: #000000;
+}
+
+.user-address-complement {
+    font-weight: 500;
+    font-size: 8px;
+    line-height: 11px;
+    color: #777777;
+}
+
+
+

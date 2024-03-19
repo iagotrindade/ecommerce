@@ -22,4 +22,12 @@ class MobileMenu extends Component
     public function openMobileSearch() {
         $this->dispatch('openMobileSearch');
     }
+
+    public function openMobileNotifications() {
+        $this->dispatch('openMobileNotifications');
+    }
+
+    public function openProfileTab() {
+        $this->dispatch('openProfileTab');
+    }
 }

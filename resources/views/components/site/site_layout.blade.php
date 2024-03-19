@@ -19,6 +19,10 @@
 
             <livewire:mobile-menu :user="$user"></livewire:mobile-menu>
 
+            <livewire:mobile-notifications-area :user="$user"></livewire:mobile-notifications-area>
+
+            <livewire:mobile-profile-area :user="$user"></livewire:mobile-profile-area>
+
             <div class="site-content-area">
                 <header class="site-header-area default-flex-around">
                     <div class="table-number-area">
