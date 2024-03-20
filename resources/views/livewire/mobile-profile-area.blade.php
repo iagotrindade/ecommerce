@@ -54,6 +54,10 @@
                     <form action="">
                         <h4>Informações Pessoais</h4>
 
+                        @if ($addAddressWarning !== "")
+                            <p>{{$addAddressWarning}}</p>
+                        @endif
+
                         <div class="mobile-user-data">
                             <div class="cart-shipping-area-input-group default-flex-around">
                                 <div class="shipping-input-item default-flex-column w-100">
@@ -91,7 +95,7 @@
 
                     <h4>Endereços</h4>
 
-                    <div class="add-new-address-button default-flex-between">
+                    <div class="add-new-address-button default-flex-between" wire:click="showAddNewAddress()">
                         <div class="add-new-address-left-area default-flex">
                             <i class='bx bxs-map-pin'></i>
                             <p>Cadastrar Novo Endereço</p>
@@ -102,19 +106,96 @@
                         </div>
                     </div>
 
-                    <div class="user-addresses default-flex-between">
-                        <div class="add-new-address-left-area default-flex">
-                            <i class='bx bxs-map-pin'></i>
-                            <div class="user-address-area default-flex-column">
-                                <p class="user-compiled-address">R. Cândido de Souza, 952</p>
-                                <p class="user-address-complement">Casa - Frente ao Deposito de Gas</p>
+                    @foreach ($user->address as $address)
+                        <div class="user-addresses default-flex-between">
+                            <div class="add-new-address-left-area default-flex">
+                                <i class='bx bxs-map-pin'></i>
+                                <div class="user-address-area default-flex-column">
+                                    <p class="user-compiled-address">{{$address->address}}</p>
+                                    <p class="user-address-complement">{{$address->complement}}</p>
+                                </div>
+                            </div>
+
+
+                            <div class="add-new-address-right-area default-flex" wire:confirm="Deseja realmente excluir este endereço?" wire:click="deleteAddress({{$address->id}})">
+                                <i class='bx bxs-trash-alt'></i>
                             </div>
                         </div>
+                    @endforeach    
+                </div>
+            </div>
 
+            <div class="mobile-profile-add-new-address-form" style="display: {{$newAddressDisplay}}">
+                <div class="mobile-cart-header default-flex-between">
+                    <a class="default-flex" wire:click="showAddNewAddress()">
+                        <i class='bx bx-chevron-left'></i>
+                    </a>
 
-                        <div class="add-new-address-right-area default-flex">
-                            <i class='bx bx-current-location'></i>
+                    <h3>Adicionar Endereço</h3>
+                </div>
+
+                <p class="cart-shipping-title-inputs-warning">{{ $inputsError }}</p>
+
+                <div class="cart-shipping-area-inputs">
+                    <div class="cart-shipping-area-input-group default-flex-around">
+                        <div class="shipping-input-item default-flex-column w-100">
+                            <label for="cep">CEP</label>
+                            <input class="w-95" type="text" name="cep" id="cep" oninput="formatCEP(this)"
+                                wire:model="zipcode" wire:keyup="findAdress()"
+                                @if ($cepError !== '') style="border: 1px solid red; color: red;" @else style="border: 1px solid --var(primary-color); color: --var(primary-color);" @endif>
                         </div>
+    
+                        <div class="shipping-input-item default-flex-column w-100">
+                            <label for="name">Identificação</label>
+                            <input class="w-100" type="text" name="name" id="name" wire:model="name" placeholder="Exemplo: Minha Casa">
+                        </div>
+                    </div>
+    
+                    <div class="cart-shipping-area-input-group default-flex-around">
+                        <div class="shipping-input-item default-flex-column w-100">
+                            <label for="street">Rua</label>
+                            <div class="street-readonly-input default-flex-start w-95">
+                                <input class="w-100 input-blocked" type="text" name="street" id="street" readonly
+                                    wire:model="street">
+                                <i class='bx bxs-lock'></i>
+                            </div>
+                        </div>
+    
+                        <div class="shipping-input-item default-flex-column w-20">
+                            <label for="number">Número</label>
+                            <input class="w-100" type="text" name="number" id="number" wire:model="number">
+                        </div>
+                    </div>
+    
+                    <div class="cart-shipping-area-input-group">
+                        <div class="shipping-input-item default-flex-column w-100">
+                            <label for="complement">Complemento</label>
+                            <input class="w-100" type="text" name="complement" id="complement"
+                                wire:model="complement">
+                        </div>
+                    </div>
+    
+                    <div class="cart-shipping-area-input-group">
+                        <div class="shipping-input-item default-flex-column w-100">
+                            <label for="district">Bairro</label>
+                            <div class="default-flex-start w-100">
+                                <input class="w-100 input-blocked" type="text" name="district" id="district"
+                                    readonly wire:model="district">
+                                <i class='bx bxs-lock'></i>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="cart-shipping-area-input-group">
+                        <div class="shipping-input-item default-flex-column w-100">
+                            <label for="reference">Referência</label>
+                            <input class="w-100" type="text" name="reference" id="reference"
+                                wire:model="reference">
+                        </div>
+                    </div>
+
+                    <div class="default-flex-end">
+                        <p class="next-stage-button default-flex" wire:click="addNewAddress()">ADICIONAR</p>
                     </div>
                 </div>
             </div>
@@ -143,3 +224,9 @@
         @endif
     </div>
 </div>
+
+<script>
+    function formatCEP(input) {
+        input.value = input.value.replace(/\D/g, '').slice(0, 8).replace(/(\d{5})(\d{0,3})/, '$1-$2');
+    }
+</script>

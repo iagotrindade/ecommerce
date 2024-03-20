@@ -641,7 +641,6 @@
 
 
     <script>
-        console.log('ok');
         function copyPixCode() {
             var copyCode = document.getElementById('copyCode');
             var pixCode = document.getElementById('pixCode');

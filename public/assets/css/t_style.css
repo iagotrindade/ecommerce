@@ -525,7 +525,7 @@
     text-decoration: none;
 }
 
-.mobile-profile-my-data-tab, .mobile-profile-my-orders-tab, .mobile-profile-my-favorites-tab {
+.mobile-profile-my-data-tab, .mobile-profile-add-new-address-form, .mobile-profile-my-orders-tab, .mobile-profile-my-favorites-tab {
     display: none;
     position: fixed; /* Posiciona a div fixa na tela */
     top: 0; /* Define a posição superior da div como 0 */
@@ -534,6 +534,10 @@
     height: 100%; /* Define a altura da div como 100% da tela */
     background-color: #F5F3FF;
     z-index: 998; /* Define o índice z da div como 9999 para que ela fique sobreposta a todos os outros elementos */
+}
+
+.mobile-profile-add-new-address-form {
+    padding: 10px;
 }
 
 .mobile-edit-user-data {
@@ -570,7 +574,7 @@
 }
 
 .add-new-address-right-area i { 
-    font-size: 32px;
+    font-size: 28px;
     color: #576DEA;
 }
 

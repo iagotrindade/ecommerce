@@ -24,7 +24,7 @@
             </div>
 
             <div class="my-notifications-area" style="display: {{$mobileNotifications}}">
-                <h3>Janeiro, 2024</h3>
+                <h3>{{$date}}</h3>
 
                 @foreach ($user->notifications as $notification)
                     <div class="mobile-notification-item default-flex-column" @if($notification->read_at !== null) style="opacity: 0.5;" @endif>
