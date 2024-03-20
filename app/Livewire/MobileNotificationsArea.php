@@ -4,6 +4,8 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\Attributes\On;
+use Illuminate\Support\Carbon;
+use App\Http\Handlers\DateHandler;
 
 
 class MobileNotificationsArea extends Component
@@ -15,7 +17,10 @@ class MobileNotificationsArea extends Component
 
     public function render()
     {
-        return view('livewire.mobile-notifications-area');
+        $date = DateHandler::getCurrentMonthYear();
+        return view('livewire.mobile-notifications-area', [
+            "date" => $date
+        ]);
     }
 
     public function mount($user)
