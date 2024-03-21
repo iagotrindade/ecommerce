@@ -5,11 +5,27 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Hash;
 use App\Models\Adresses;
+use App\Models\Order;
+use App\Http\Handlers\OrderHandler;
 
 class MobileProfileArea extends Component
 {   
+    public $profileWarning = '';
+
+    //User properties
     public $user;
+    public $userOrders;
+
+    public $userName;
+    public $userUsername;
+    public $userEmail;
+    public $userPhone;
+    public $userPassword;
+    public $userNewPassword;
+
+    //Display properties
     public $profileDisplay = "none";
     public $myDataDisplay = "none";
     public $myOrdersDisplay = "none";
@@ -30,10 +46,18 @@ class MobileProfileArea extends Component
     public $cepError = '';
     public $inputsError = '';
 
-    public $addAddressWarning = '';
-
     public function render()
     {
+        $this->userName = $this->user->name;
+        $this->userUsername = $this->user->username;
+        $this->userEmail = $this->user->email;
+        $this->userPhone = $this->user->phone;
+
+        dd($this->user->orders);
+        if($this->user->orders !== "") {
+            $this->userOrders = OrderHandler::processOrdersInfo($this->user->orders);
+        }
+        
         return view('livewire.mobile-profile-area');
     }
 
@@ -94,6 +118,31 @@ class MobileProfileArea extends Component
         }
     }
 
+    public function updateUserData() {
+        if(!empty($this->userName) && !empty($this->userUsername) && !empty($this->userEmail) && !empty($this->userPhone) && !empty($this->userPassword)) {
+            if(Hash::check($this->userPassword, $this->user->password)) {
+                $this->userNewPassword = empty($this->userNewPassword) ? $this->user->password : Hash::make($this->userNewPassword);
+
+                $this->user->update([
+                    "name" => $this->userName,
+                    "username" => $this->userUsername,
+                    "email" => $this->userEmail,
+                    "phone" => $this->userPhone,
+                    "password" => $this->userNewPassword
+                ]);
+
+                $this->user->save();
+
+                $this->userNewPassword = "";
+                $this->profileWarning = "Os seus dados foram atualizados!";
+            }
+        }
+        
+        else {
+            $this->profileWarning = "Preencha todos os campos!";
+        }
+    }
+
     public function findAdress() {
         if(strlen($this->zipcode) === 9) {
             $this->zipcode = preg_replace(pattern: '/[^0-9]/im', replacement: '', subject: $this->zipcode);
@@ -133,7 +182,7 @@ class MobileProfileArea extends Component
                 'user_id' => $this->user->id,
             ]);
 
-            $this->addAddressWarning = 'Endereço adicionado com Sucesso!';
+            $this->profileWarning = 'Endereço adicionado com Sucesso!';
             $this->showAddNewAddress();
         }
 
