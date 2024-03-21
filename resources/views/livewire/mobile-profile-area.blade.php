@@ -51,23 +51,23 @@
                 </div>
 
                 <div class="mobile-edit-user-data">
-                    <form action="">
+                    <form wire:submit="updateUserData">
                         <h4>Informações Pessoais</h4>
 
-                        @if ($addAddressWarning !== "")
-                            <p>{{$addAddressWarning}}</p>
+                        @if ($profileWarning !== "")
+                            <p>{{$profileWarning}}</p>
                         @endif
 
                         <div class="mobile-user-data">
                             <div class="cart-shipping-area-input-group default-flex-around">
                                 <div class="shipping-input-item default-flex-column w-100">
                                     <label for="name">Nome</label>
-                                    <input class="w-100" type="text" name="name" id="name" value="{{$user->name}}">
+                                    <input class="w-100" type="text" name="name" id="name" wire:model="userName" required>
                                 </div>
 
                                 <div class="shipping-input-item default-flex-column w-100">
-                                    <label for="user">Usuário</label>
-                                    <input class="w-100" type="text" name="user" id="user" value="{{$user->username}}">
+                                    <label for="username">Usuário</label>
+                                    <input class="w-100" type="text" name="username" id="username" wire:model="userUsername" required>
                                 </div>
                             </div>
                         </div>
@@ -78,18 +78,28 @@
                             <div class="cart-shipping-area-input-group default-flex-around">
                                 <div class="shipping-input-item default-flex-column w-100">
                                     <label for="email">E-Mail</label>
-                                    <input class="w-100" type="email" name="email" id="email" value="{{$user->email}}">
+                                    <input class="w-100" type="email" name="email" id="email" wire:model="userEmail" required>
                                 </div>
 
                                 <div class="shipping-input-item default-flex-column w-100">
                                     <label for="phone">Whatsapp</label>
-                                    <input class="w-100" type="text" name="phone" id="phone" value="{{$user->phone}}">
+                                    <input class="w-100" type="text" name="phone" id="phone" wire:model="userPhone" required>
+                                </div>
+
+                                <div class="shipping-input-item default-flex-column w-100">
+                                    <label for="password">Senha</label>
+                                    <input class="w-100" type="password" name="password" id="password" wire:model="userPassword" required>
+                                </div>
+
+                                <div class="shipping-input-item default-flex-column w-100">
+                                    <label for="new_password">Nova Senha</label>
+                                    <input class="w-100" type="password" name="new_password" id="new_password" wire:model="userNewPassword">
                                 </div>
                             </div>
                         </div>
 
                         <div class="default-flex-end">
-                            <button class="update-user-data" type="submit">Salvar</button>
+                            <button class="update-user-data" type="submit" wire:click="updateUserData()">Salvar</button>
                         </div>
                     </form>
 
@@ -207,6 +217,43 @@
                     </a>
 
                     <h3>{{$user->name}}</h3>
+                </div>
+
+                <div class="my-orders-mobile-area">
+                    <h4>Histórico</h4>
+
+                    <div class="my-order-list default-flex-column">
+                        @if (!empty($userOrders))
+                            @foreach ($userOrders as $order)
+                                <div class="my-order-item">
+                                    <div class="my-order-item-top default-flex-between">
+                                        <p class="my-order-number">{{$order->code}}</p>
+
+                                        <p>{{$order->order_date}}</p>
+
+                                        <p>R$ {{$order->total_amount}}</p>
+
+                                        <i class='bx bx-chevron-right'></i>
+                                    </div>
+
+                                    <div class="my-order-products-area">
+                                        <ol>
+                                            <li>Martelo do Thor</li>
+                                            <li>Martelo do Thor</li>
+                                            <li>Martelo do Thor</li>
+                                        </ol>
+                                    </div>
+
+                                    <div class="my-order-buy-again default-flex">
+                                        <a href="">Pedir Novamente</a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <p>Você ainda não tem nenhum pedido :(</p>
+                        @endif
+                            
+                    </div>
                 </div>
             </div>
 

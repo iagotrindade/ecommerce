@@ -15,6 +15,7 @@ use App\Notifications\ResetPasswordNotification;
 use App\Models\PasswordResetTokens;
 use App\Models\Favorite;
 use App\Models\Adresses;
+use App\Models\Orders;
 
 class User extends Authenticatable
 {
@@ -90,5 +91,9 @@ class User extends Authenticatable
     public function address()
     {
         return $this->hasMany(Adresses::class, 'user_id');
+    }
+
+    public function orders() {
+        return $this->hasMany(Order::class, 'user_id');
     }
 }
