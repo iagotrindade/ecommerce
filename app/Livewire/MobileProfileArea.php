@@ -3,11 +3,14 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Adresses;
 use App\Models\Order;
+use App\Models\Favorite;
+use App\Models\Product;
 use App\Http\Handlers\OrderHandler;
 
 class MobileProfileArea extends Component
@@ -17,6 +20,8 @@ class MobileProfileArea extends Component
     //User properties
     public $user;
     public $userOrders;
+    public $userFavorites;
+    public $favorites;
 
     public $userName;
     public $userUsername;
@@ -52,9 +57,12 @@ class MobileProfileArea extends Component
         $this->userUsername = $this->user->username;
         $this->userEmail = $this->user->email;
         $this->userPhone = $this->user->phone;
+        
+        if(Auth::check()) {
+            $this->favorites = $this->user->favorites->pluck('product_id')->toArray();
+        }
 
-        dd($this->user->orders);
-        if($this->user->orders !== "") {
+        if($this->user->orders->isNotEmpty()) {
             $this->userOrders = OrderHandler::processOrdersInfo($this->user->orders);
         }
         
@@ -196,5 +204,11 @@ class MobileProfileArea extends Component
         if($id) {
             Adresses::where('id', $id)->delete();
         }
+    }
+
+    public function favoriteProduct($id) {
+        $this->dispatch("favoriteProduct", $id);
+
+        $this->profileWarning = "Lista de favoritos alterada com sucesso!";
     }
 }

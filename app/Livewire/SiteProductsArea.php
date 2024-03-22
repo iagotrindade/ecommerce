@@ -106,12 +106,13 @@ class SiteProductsArea extends Component
         $this->filterCategory = Categories::find($categoryId);
     }
 
+    #[On('favoriteProduct')]
     public function favoriteProduct($productId) {
         if(Auth::check()) {
+            
             $existingFavorite = Favorite::where('user_id', $this->user->id)
                 ->where('product_id', $productId)
                 ->first();
-
             if($existingFavorite) {
                 $existingFavorite->delete();
             } else {

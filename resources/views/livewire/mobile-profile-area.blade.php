@@ -263,7 +263,35 @@
                         <i class='bx bx-chevron-left'></i>
                     </a>
 
-                    <h3>{{$user->name}}</h3>
+                    <h3>Favoritos</h3>
+                </div>
+
+                <div class="my-favorites-mobile-area">
+                    @if ($profileWarning !== "")
+                        <p>{{$profileWarning}}</p>
+                    @endif
+                    
+                    @foreach ($user->favorites as $favorite)
+                        <div class="site-product-item default-flex-start">
+                            <div class="site-product-image-area default-flex" wire:click="openAddonsModal({{$favorite->product->id}})">
+                                <img src="{{url("storage/{$favorite->product->image->name}")}}" alt="Imagem do Produto">
+                            </div>
+
+                            <div class="site-products-texts default-flex-column-start" wire:click="openAddonsModal({{$favorite->product->id}})">
+                                <h3>{{$favorite->product->name}}</h3>
+
+                                <p class="default-flex-column-end">{{$favorite->product->description}}</p>
+                            </div>
+
+                            <div class="site-products-actions default-flex-column-between">
+                                <i class='bx bxs-star' wire:click="favoriteProduct({{$favorite->product->id}})"></i>
+
+                                <div class="site-product-price default-flex-end" wire:click="openAddonsModal({{$favorite->product->id}})">
+                                    R$ {{$favorite->product->price}}
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         @else
