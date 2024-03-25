@@ -131,7 +131,7 @@
                                 <i class='bx bxs-trash-alt'></i>
                             </div>
                         </div>
-                    @endforeach    
+                    @endforeach
                 </div>
             </div>
 
@@ -154,13 +154,13 @@
                                 wire:model="zipcode" wire:keyup="findAdress()"
                                 @if ($cepError !== '') style="border: 1px solid red; color: red;" @else style="border: 1px solid --var(primary-color); color: --var(primary-color);" @endif>
                         </div>
-    
+
                         <div class="shipping-input-item default-flex-column w-100">
                             <label for="name">Identificação</label>
                             <input class="w-100" type="text" name="name" id="name" wire:model="name" placeholder="Exemplo: Minha Casa">
                         </div>
                     </div>
-    
+
                     <div class="cart-shipping-area-input-group default-flex-around">
                         <div class="shipping-input-item default-flex-column w-100">
                             <label for="street">Rua</label>
@@ -170,13 +170,13 @@
                                 <i class='bx bxs-lock'></i>
                             </div>
                         </div>
-    
+
                         <div class="shipping-input-item default-flex-column w-20">
                             <label for="number">Número</label>
                             <input class="w-100" type="text" name="number" id="number" wire:model="number">
                         </div>
                     </div>
-    
+
                     <div class="cart-shipping-area-input-group">
                         <div class="shipping-input-item default-flex-column w-100">
                             <label for="complement">Complemento</label>
@@ -184,7 +184,7 @@
                                 wire:model="complement">
                         </div>
                     </div>
-    
+
                     <div class="cart-shipping-area-input-group">
                         <div class="shipping-input-item default-flex-column w-100">
                             <label for="district">Bairro</label>
@@ -195,7 +195,7 @@
                             </div>
                         </div>
                     </div>
-    
+
                     <div class="cart-shipping-area-input-group">
                         <div class="shipping-input-item default-flex-column w-100">
                             <label for="reference">Referência</label>
@@ -252,7 +252,7 @@
                         @else
                             <p>Você ainda não tem nenhum pedido :(</p>
                         @endif
-                            
+
                     </div>
                 </div>
             </div>
@@ -270,8 +270,9 @@
                     @if ($profileWarning !== "")
                         <p>{{$profileWarning}}</p>
                     @endif
-                    
-                    @foreach ($user->favorites as $favorite)
+
+                    @if ($user->favorites !== "")
+                        @foreach ($user->favorites as $favorite)
                         <div class="site-product-item default-flex-start">
                             <div class="site-product-image-area default-flex" wire:click="openAddonsModal({{$favorite->product->id}})">
                                 <img src="{{url("storage/{$favorite->product->image->name}")}}" alt="Imagem do Produto">
@@ -284,7 +285,7 @@
                             </div>
 
                             <div class="site-products-actions default-flex-column-between">
-                                <i class='bx bxs-star' wire:click="favoriteProduct({{$favorite->product->id}})"></i>
+                                <i class='bx bxs-star' wire:confirm="Deseja realmente remover este item dos seus favoritos?" wire:click="favoriteProduct({{$favorite->product->id}})"></i>
 
                                 <div class="site-product-price default-flex-end" wire:click="openAddonsModal({{$favorite->product->id}})">
                                     R$ {{$favorite->product->price}}
@@ -292,6 +293,7 @@
                             </div>
                         </div>
                     @endforeach
+                    @endif
                 </div>
             </div>
         @else

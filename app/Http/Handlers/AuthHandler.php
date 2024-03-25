@@ -6,14 +6,30 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Image;
 use App\Models\PermissionGroups;
 use App\Models\PermissionLinks;
 use App\Models\PermissionItems;
+use App\Notifications\LoginAttemptNotification;
 
 class AuthHandler
 {
+    public static function sendVerificationCode($user, $accessDetails) {
+        $code = strval(mt_rand(100000, 999999));
+        $expiration = Carbon::now()->addMinutes(3);
+
+        $user->update([
+            'login_hash' => Hash::make($code),
+            'expiration_time' => $expiration
+        ]);
+
+        $user['login_hash'] = $code;
+
+        $user->notify((new LoginAttemptNotification($user, $accessDetails)));
+    }
+
     public static function getAccessDetails($request) {
         $location = Http::acceptJson()->get('http://ip-api.com/json/'.$request->ip().'');
 

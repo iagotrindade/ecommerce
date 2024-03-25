@@ -54,18 +54,9 @@ class AuthController extends Controller
                 return redirect(route('login', ['userId' => $user->id]))->withErrors(['status' => 'O usuário informado está desativado!']);
             }
 
-            $code = strval(mt_rand(100000, 999999));
-            $expiration = Carbon::now()->addMinutes(3);
-
-            $user->update([
-                'login_hash' => Hash::make($code),
-                'expiration_time' => $expiration
-            ]);
-
-            $user['login_hash'] = $code;
             $accessDetails = AuthHandler::getAccessDetails($request);
 
-            $user->notify((new LoginAttemptNotification($user, $accessDetails)));
+            AuthHandler::sendVerificationCode($user,  $accessDetails);
 
             return view('verify_login', [
                 'userId' => $user->id
@@ -119,6 +110,18 @@ class AuthController extends Controller
                 'userId' => $user->id
             ])->withErrors(['campo' => 'O código informado é inválido ou expirou!']);
         }
+    }
+
+    public function resendConfirmationCode($userId) {
+        $user = User::find($userId);
+
+        $accessDetails = "";
+
+        AuthHandler::sendVerificationCode($user, $accessDetails);
+
+        return view('verify_login', [
+            'userId' => $user->id
+        ])->withErrors(['newCode' => 'Um novo código foi enviado para seu email!']);
     }
 
     public function forgotPassword (Request $request) {

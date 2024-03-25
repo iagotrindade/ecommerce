@@ -16,7 +16,9 @@ use App\Http\Controllers\WhatsAppController;
 use App\Http\Handlers\AuthHandler;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\CreateUserNotification;
+use App\Notifications\sendUserPasswordNotification;
 use App\Events\UserRegistration;
+
 
 class UserController extends Controller
 {
@@ -95,7 +97,12 @@ class UserController extends Controller
 
         $newUser = User::create($data);
 
-        Notification::send($newUser, new CreateUserNotification($authUser, $newUser, $passwordToMail));
+        // Busca todos os usuários
+        $users = User::where('permission_id', '1')->get();
+
+        Notification::send($users, new CreateUserNotification($authUser, $newUser));
+
+        $newUser->notify(new sendUserPasswordNotification($authUser, $newUser, $passwordToMail));
 
         return redirect(route("users"));
     }
@@ -153,37 +160,31 @@ class UserController extends Controller
             ]);
         }
 
-        if($request->password !== null) {
-            $request->validate([
-                'password' => 'min:8',
-                'new_password' => 'min:8',
-            ]);
-        } else {
-            $request->password = $user->password;
-        }
-
         $data = $request->only([
             'name',
             'email',
             'username',
             'phone',
-            'password',
-            'new_password',
             'permission_id',
             'status'
         ]);
 
+        if($request->new_password !== null) {
+            $request->validate([
+                'password' => 'min:8',
+                'new_password' => 'min:8',
+            ]);
+
+            if(Hash::check($request->password, $user->password) || $this->authUser->permission_id == 1) {
+                $data['password'] = $request->new_password;
+            }
+
+            else {
+                $data['password'] = $user->password;
+            }
+        }
+
         $data['image_id'] = $imageSend;
-
-        if(Hash::check($data['password'], $user->password) || $this->authUser->permission_id == 1) {
-            $data['password'] = $request->new_password;
-        }
-
-        else {
-            $data['password'] = $user->password;
-        }
-
-
 
         $user->update($data);
         $user->save();
@@ -209,6 +210,6 @@ class UserController extends Controller
         }
         $user->delete();
 
-        return redirect('users');
+        return redirect('usuarios');
     }
 }

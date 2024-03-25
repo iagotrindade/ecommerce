@@ -76,6 +76,7 @@ Route::middleware(["guest"])->group(function() {
 
     Route::get('/adm/login/confirm', [AuthController::class, 'confirmLogin'])->name('confirm.login');
     Route::post('/adm/login/confirm', [AuthController::class, 'confirmLoginAction'])->name('confirm.login.action');
+    Route::get('/adm/login/resend/code/{id}', [AuthController::class, 'resendConfirmationCode'])->name('resend.verification.code');
 
     Route::get('/forgot_password', [AuthController::class, 'forgotPassword'])->name('forgot.password');
     Route::post('/forgot_password_action', [AuthController::class, 'forgotPasswordAction'])->name('forgot.password.action');

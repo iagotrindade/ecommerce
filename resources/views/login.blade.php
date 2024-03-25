@@ -5,6 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel = "stylesheet" href="/assets/css/style.css"/>
+        <link rel="stylesheet" media="(max-width: 1200px)" href="/assets/css/m_style.css"/>
+        <link rel="stylesheet" media="(max-width: 950px)" href="/assets/css/t_style.css"/>
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
         <title>Painel Administrativo - Confirmação de Login</title>
     </head>
@@ -14,6 +16,16 @@
             <div class="login-form-area default-flex-column">
                 <div class="login-form-header-area default-flex-column">
                     <img src="{{url("assets/images/panel-images/login-icon-image.png")}}" alt="ícone">
+
+                    <div class="create_account-area default-flex">
+                        <a class="default-flex" href="">Criar uma Conta</a>
+                    </div>
+
+                    <div class="or-login-line-area default-flex-around">
+                        <div class="or-login-line-left"></div>
+                        <p>Ou</p>
+                        <div class="or-login-line-right"></div>
+                    </div>
 
                     @if ($errors->any())
                         <ul>
@@ -30,7 +42,6 @@
                 <div class="login-form-inputs-area">
                     <form method="POST" action="{{route('login.action')}}">
                         @csrf
-
                         <div class="input-area">
                             <div class="">
                                 <i class='bx bx-user'></i>
@@ -48,12 +59,14 @@
                                     <label class="remeber-label" for="remember">Lembrar-me</label>
                                 </div>
 
-                                <button class="login-submit-button" type="submit">Enviar</button>
+                                <button class="login-submit-button" type="submit">Login</button>
                             </div>
 
                             <div class="forgot-password-link-area default-flex">
                                 <a href="{{route('forgot.password')}}">Esqueceu sua senha? Clique aqui</a>
                             </div>
+
+                            <a class="enter-without-login-button default-flex" href="{{route('home')}}">Entrar sem Login -> </a>
                         </div>
                     </form>
                 </div>

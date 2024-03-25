@@ -6,6 +6,8 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel = "stylesheet" href="/assets/css/style.css"/>
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <link rel="stylesheet" media="(max-width: 1200px)" href="/assets/css/m_style.css"/>
+        <link rel="stylesheet" media="(max-width: 950px)" href="/assets/css/t_style.css"/>
         <title>Painel Administrativo - Confirmação de Login</title>
     </head>
 
@@ -40,11 +42,11 @@
                                 <input type="text" maxlength="1" pattern="\d" inputmode="numeric" name="code[]"/>
                             </div>
 
-                            <div class="default-flex-column">
+                            <div class="send-verification-code-button-area default-flex-column">
                                 <x-buttons.default_primary_button text="Enviar" tag='button' type='submit'></x-buttons.default_primary_button >
 
                                 <div class="forgot-password-link-area default-flex" style="margin-top: 30px">
-                                    <a href="{{route('login')}}">Esqueceu sua senha? Clique aqui</a>
+                                    <a href="{{route('resend.verification.code', $userId)}}">Seu código não chegou? Clique aqui para reenviar</a>
                                 </div>
                             </div>
                         </form>

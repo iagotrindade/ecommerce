@@ -369,6 +369,10 @@
     color: var(--primary-color);
 }
 
+.send-verification-code-button-area button, .forgot-password-link-area  {
+    width: 90%;
+}
+
 .fixed-icon {
     position: fixed;
     top: 120px; /* Ajuste conforme necessário */
@@ -940,7 +944,6 @@
     border-top: 1px solid #9E9E9E;
     text-align: center;
     padding: 20px 0;
-
 }
 
 .mobile-keep-shopping-button-area a {
@@ -1625,6 +1628,38 @@
 
 .confirm-login-title {
     margin-bottom: 30px;
+}
+
+.create_account-area {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.create_account-area a {
+    width: 100%;
+    height: 38px;
+    background: var(--primary-color);
+    border-radius: 3px;
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.or-login-line-area {
+    width: 370px;
+    margin-bottom: 40px;
+}
+
+.or-login-line-left, .or-login-line-right {
+    border: 1px solid #525257;
+    width: 45%;
+}
+
+.enter-without-login-button {
+    width: 100%;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 19px;
+    color: #0075E2;
 }
 
 .verify-code-input-area {

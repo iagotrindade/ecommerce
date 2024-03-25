@@ -14,7 +14,7 @@ use App\Models\Product;
 use App\Http\Handlers\OrderHandler;
 
 class MobileProfileArea extends Component
-{   
+{
     public $profileWarning = '';
 
     //User properties
@@ -51,21 +51,25 @@ class MobileProfileArea extends Component
     public $cepError = '';
     public $inputsError = '';
 
+    #[On('updateFavoritesList')]
     public function render()
     {
-        $this->userName = $this->user->name;
-        $this->userUsername = $this->user->username;
-        $this->userEmail = $this->user->email;
-        $this->userPhone = $this->user->phone;
-        
+
+
         if(Auth::check()) {
+            $this->userName = $this->user->name;
+            $this->userUsername = $this->user->username;
+            $this->userEmail = $this->user->email;
+            $this->userPhone = $this->user->phone;
             $this->favorites = $this->user->favorites->pluck('product_id')->toArray();
+
+            if($this->user->orders->isNotEmpty()) {
+                $this->userOrders = OrderHandler::processOrdersInfo($this->user->orders);
+            }
         }
 
-        if($this->user->orders->isNotEmpty()) {
-            $this->userOrders = OrderHandler::processOrdersInfo($this->user->orders);
-        }
-        
+
+
         return view('livewire.mobile-profile-area');
     }
 
@@ -145,7 +149,7 @@ class MobileProfileArea extends Component
                 $this->profileWarning = "Os seus dados foram atualizados!";
             }
         }
-        
+
         else {
             $this->profileWarning = "Preencha todos os campos!";
         }
@@ -180,7 +184,7 @@ class MobileProfileArea extends Component
 
     public function addNewAddress() {
         if($this->zipcode != "" && $this->name != "" && $this->street != "" && $this->number != "" && $this->district != "") {
-            
+
             $this->compiledAddress = $this->street.', '. $this->number.' - '.$this->district.', '.$this->zipcode;
 
             Adresses::create([
@@ -210,5 +214,7 @@ class MobileProfileArea extends Component
         $this->dispatch("favoriteProduct", $id);
 
         $this->profileWarning = "Lista de favoritos alterada com sucesso!";
+
+        $this->dispatch("updateFavoritesList");
     }
 }

@@ -6,6 +6,51 @@
     --primary-color: #5041BC;
 }
 
+.panel-container {
+    width: 100vw;
+    height: 100vh;
+}
+
+.login-image {
+    display: none;
+}
+
+.login-form-area {
+    min-width: auto;
+    height: 100vh;
+    border-radius: 0;
+    margin: 0;
+}
+
+.login-form-header-area {
+    width: 100vw;
+}
+
+.login-form-inputs-area-input {
+    width: 90vw;
+}
+
+.login-form-header-area img {
+    width: 80px;
+    margin-bottom: 35px;
+}
+
+.confirm-login-title {
+    display: none;
+}
+
+.create_account-area {
+    width: 100vw;
+}
+
+.create_account-area a {
+    width: 90%;
+}
+
+.or-login-line-area {
+    width: 90%;
+}
+
 .site-header-area, .asside-menu-area {
     display: none;
 }
@@ -46,6 +91,14 @@
     height: 38px;
     background-color: #DEE1E7;
     margin-left: -50px;
+}
+
+.empty-cart-area {
+    padding: 10px;
+}
+
+.go-shopping-button {
+    width: 220px;
 }
 
 .mobile-carte-area {
@@ -500,6 +553,9 @@
     color: #777777;
 }
 
+.profile-menu-area-list {
+    list-style: none;
+}
 .mobile-profile-area {
     padding: 10px;
 }
@@ -569,11 +625,11 @@
     margin-bottom: 15px;
 }
 
-.add-new-address-left-area i { 
+.add-new-address-left-area i {
     margin-right: 25px;
 }
 
-.add-new-address-right-area i { 
+.add-new-address-right-area i {
     font-size: 28px;
     color: #576DEA;
 }
