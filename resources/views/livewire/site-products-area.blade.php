@@ -45,6 +45,41 @@
 
 
         <div class="mobile-carte-area">
+            @if(Auth::user())
+                <div class="mobile-products-header">
+                    <h3>Bem vindo(a), {{$user->name}}!</h3>
+
+                    <h4>Peça Novamente</h4>
+
+                    @if (!empty($lastProductPurchased))
+                        <div class="ask-again-area">
+                            <div class="site-product-item default-flex-start">
+                                <div class="site-product-image-area default-flex" wire:click="openAddonsModal({{$lastProductPurchased->id}})">
+                                    <img src="{{url("storage/{$lastProductPurchased->image->name}")}}" alt="Imagem do Produto">
+                                </div>
+
+                                <div class="site-products-texts default-flex-column-start" wire:click="openAddonsModal({{$lastProductPurchased->id}})">
+                                    <h3>{{$lastProductPurchased->name}}</h3>
+
+                                    <p class="default-flex-column-end">{{$lastProductPurchased->description}}</p>
+                                </div>
+
+                                <div class="site-products-actions default-flex-column-between">
+                                    @if(Auth::check() && in_array($lastProductPurchased->id, $favorites))
+                                        <i class='bx bxs-star' wire:click="favoriteProduct({{$lastProductPurchased->id}})"></i>
+                                    @else
+                                        <i class='bx bx-star' wire:click="favoriteProduct({{$lastProductPurchased->id}})"></i>
+                                    @endif
+
+                                    <div class="site-product-price default-flex-end" wire:click="openAddonsModal({{$lastProductPurchased->id}})">
+                                        R$ {{$lastProductPurchased->price}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            @endif
             @if ($mobileSearchProducts != "")
                 @foreach ($categories as $category)
                     <h3 class="mobile-category-name">{{$category->name}}</h3>

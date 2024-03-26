@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\PurchasedProductAddons;
 use App\Models\Image;
+use App\Models\PurchasedProducts;
 
 class Product extends Model
 {
@@ -29,7 +30,7 @@ class Product extends Model
 
     public function purchases()
     {
-        return $this->belongsTo(PurchasedItems::class, 'order_id');
+        return $this->hasMany(PurchasedProducts::class, 'product_id');
     }
 
     public function purchasedAddons() {

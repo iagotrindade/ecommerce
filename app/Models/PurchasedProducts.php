@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\PurchasedProductAddons;
+use App\Models\PurchasedProduct;
+use App\Models\Product;
 
 class PurchasedProducts extends Model
 {
@@ -24,7 +26,7 @@ class PurchasedProducts extends Model
 
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->hasOne(Product::class, 'id');
     }
 
     public function productAddons()

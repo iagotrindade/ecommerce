@@ -32,12 +32,19 @@ class SiteProductsArea extends Component
     public $cartCount;
     public $searchProduct;
     public $mobileSearchProducts;
+    public $lastProductPurchased;
 
     public function render()
     {
         if(Auth::check()) {
             $this->user =  AuthHandler::getAuthUser();
             $this->favorites = $this->user->favorites->pluck('product_id')->toArray();
+
+            if($this->user->orders->isNotEmpty()) {
+
+                
+                $this->lastProductPurchased = $this->user->orders[0]->purchasedProducts[0]->product;
+            }
         }
 
         if(session('cart')) {
@@ -126,6 +133,7 @@ class SiteProductsArea extends Component
         }
     }
 
+    #[On('openAddonsModal')]
     public function openAddonsModal($id) {
         if($this->chosenProduct != Product::find($id)) {
             $this->chosenProductQuantity = 1;
