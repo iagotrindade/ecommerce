@@ -730,3 +730,14 @@
 .my-favorites-mobile-area {
     padding: 10px;
 }
+
+.mobile-products-header h3 {
+    margin-bottom: 20px;
+}
+
+.mobile-products-header h4 {
+    width: 35%;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+}

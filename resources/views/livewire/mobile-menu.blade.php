@@ -10,7 +10,12 @@
 
             <li>
                 <a class="default-flex-column" wire:click="openMobileNotifications()">
-                    <i class='bx bxs-bell'></i>
+                    @if ($newNotificationCount > 0)
+                        <i class='bx bxs-bell-ring bx-tada' style="color: #5041BC;"></i>
+                    @else 
+                        <i class='bx bxs-bell'></i>
+                    @endif
+                   
                     <p>Notificações</p>
                 </a>
             </li>

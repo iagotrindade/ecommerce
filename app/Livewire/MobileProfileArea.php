@@ -217,4 +217,8 @@ class MobileProfileArea extends Component
 
         $this->dispatch("updateFavoritesList");
     }
+
+    public function openAddonsModal($id) {
+        $this->dispatch("openAddonsModal", $id);
+    }
 }

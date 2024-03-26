@@ -71,7 +71,7 @@ Route::middleware(["auth"])->group(function() {
 
 
 Route::middleware(["guest"])->group(function() {
-    Route::get('/adm', [AuthController::class, 'index'])->name('login');
+    Route::get('/login', [AuthController::class, 'index'])->name('login');
     Route::post('/adm/login/action', [AuthController::class, 'loginAction'])->name('login.action');
 
     Route::get('/adm/login/confirm', [AuthController::class, 'confirmLogin'])->name('confirm.login');

@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\Attributes\On;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use App\Http\Handlers\DateHandler;
 
@@ -32,6 +33,10 @@ class MobileNotificationsArea extends Component
     public function showMobileNotifications() {
         if($this->mobileDisplay == "none") {
             $this->mobileDisplay = "block";
+
+            foreach ($this->user->unreadNotifications as $notification) {
+                $notification->markAsRead();
+            }
         }
 
         else {
