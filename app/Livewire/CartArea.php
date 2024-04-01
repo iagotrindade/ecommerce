@@ -247,7 +247,7 @@ class CartArea extends Component
                 $response = $guzzle->request('GET', 'https://sandbox.asaas.com/api/v3/payments/'.$this->paymentAssas->id.'/pixQrCode', [
                     'headers' => [
                       'accept' => 'application/json',
-                      'access_token' => '$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwNzM4NzE6OiRhYWNoX2YyOTFlZWQ1LTVmNDMtNDM4My04ODAwLWNhYzJkMDI0YWE3Yg==',
+                      'access_token' => env('ASSAS_API_TOKEN'),
                     ],
                 ]);
 
@@ -469,7 +469,7 @@ class CartArea extends Component
                 'body' => json_encode($body),
                 'headers' => [
                     'accept' => 'application/json',
-                    'access_token' => '$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwNzM4NzE6OiRhYWNoX2YyOTFlZWQ1LTVmNDMtNDM4My04ODAwLWNhYzJkMDI0YWE3Yg==',
+                    'access_token' => env('ASSAS_API_TOKEN'),
                     'content-type' => 'application/json',
                 ],
             ]);
@@ -513,7 +513,7 @@ class CartArea extends Component
                 'body' => '{"billingType":"PIX","value":'.$value.',"dueDate":"'.$dueDate.'","description":"Pedido '.$orderNumber.'","postalService":false, "customer":"'.$clientData->customer_id.'"}',
                 'headers' => [
                 'accept' => 'application/json',
-                'access_token' => '',
+                'access_token' => env('ASSAS_API_TOKEN'),
                 'content-type' => 'application/json',
                 ],
             ]);

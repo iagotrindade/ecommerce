@@ -7,16 +7,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewUserNotification extends Notification
+class NewUserRegister extends Notification
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public $newUser;
+
+    public function __construct($newUser)
     {
-        //
+        $this->newUser = $newUser;
     }
 
     /**
@@ -26,7 +28,7 @@ class NewUserNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -48,7 +50,8 @@ class NewUserNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'title' => 'Novo usuário cadastrado no site',
+            'body' => 'Um novo usuário se cadastrou usando o email '.$this->newUser->email.''
         ];
     }
 }

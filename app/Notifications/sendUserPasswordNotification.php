@@ -12,16 +12,14 @@ class sendUserPasswordNotification extends Notification
 {
     use Queueable;
 
-    public $authUser;
     public $newUser;
     public $passwordToMail;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($authUser, $newUser, $passwordToMail)
+    public function __construct($newUser, $passwordToMail)
     {
-        $this->authUser = $authUser;
         $this->newUser = $newUser;
         $this->passwordToMail = $passwordToMail;
     }
@@ -44,12 +42,12 @@ class sendUserPasswordNotification extends Notification
         $url = url('/adm');
 
         return (new MailMessage)
-            ->subject('OverFood - Nova conta de acesso ao Painel Administrativo')
+            ->subject('OverFood - Nova conta de acesso Criada')
             ->greeting('Olá '.$this->newUser->name.'!')
-            ->line('Informamos que uma nova conta de acesso ao Painel Administrativo da OverFood foi criada para você!')
-            ->line('Acesse o painel clicando no botão abaixo e utilize a senha '.$this->passwordToMail.'. para acessar sua conta')
+            ->line('Informamos que uma nova conta de acesso da OverFood foi criada para você!')
+            ->line('Acesse sua conta clicando no botão abaixo e utilize a senha '.$this->passwordToMail.'')
             ->action('Acessar', $url)
-            ->line('Após isso recomendamos que altere sua senha através do Painel')
+            ->line('Após isso recomendamos que altere sua senha nas opções do seu usuário')
             ->line('Caso esse email não seja destinado a você pedimos gentilmente que o desconsidere');
     }
 

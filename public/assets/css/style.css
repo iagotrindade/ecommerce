@@ -1585,7 +1585,7 @@
     margin-bottom: 30px;
     padding: 0 0 8px 25px;
     outline: none;
-    color: #FFFFFF;
+    color: var(--primary-color);
 }
 
 .remember-input-area {

@@ -297,7 +297,7 @@
                 </div>
             </div>
         @else
-            <h4>É preciso estar logado para ver seus Perfil</h4>
+            <x-login-form></x-login-form>
         @endif
     </div>
 </div>

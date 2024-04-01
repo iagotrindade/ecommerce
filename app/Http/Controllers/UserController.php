@@ -17,6 +17,7 @@ use App\Http\Handlers\AuthHandler;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\CreateUserNotification;
 use App\Notifications\sendUserPasswordNotification;
+use App\Notifications\NewUserRegister;
 use App\Events\UserRegistration;
 
 
@@ -67,7 +68,7 @@ class UserController extends Controller
 
         $request->validate([
             'name' => 'required',
-            'username' => 'required',
+            'username' => 'required|regex:/^\S*$/|min:3',
             'email' => 'required|email|unique:users,email',
             'permission_id' => 'required'
         ]);
@@ -86,12 +87,6 @@ class UserController extends Controller
 
         $data['password'] = Str::random(8);
 
-        //AuthMailController::NewUserMail($data);
-
-        $whatsappMessage = "Olá ".$data['name']."! Nós viemos informar que sua conta no Painel Administrativo da Click Shopping está criada! Acesse o link ".url("adm")." e utilize a senha inicial ".$data['password']." para realizar o acesso. Após o seu primeiro acesso, você poderá redefinir sua senha. Caso essa mensagem tenha chegado para você por engano, pedimos gentilmente que desconsidere! Agradecimentos Click Shopping";
-
-        WhatsAppController::sendMessage($data['phone'], $whatsappMessage);
-
         $passwordToMail = $data['password'];
         $data['password'] = Hash::make($data['password']);
 
@@ -102,7 +97,7 @@ class UserController extends Controller
 
         Notification::send($users, new CreateUserNotification($authUser, $newUser));
 
-        $newUser->notify(new sendUserPasswordNotification($authUser, $newUser, $passwordToMail));
+        $newUser->notify(new sendUserPasswordNotification($newUser, $passwordToMail));
 
         return redirect(route("users"));
     }
@@ -211,5 +206,90 @@ class UserController extends Controller
         $user->delete();
 
         return redirect('usuarios');
+    }
+
+    public function signup(Request $request) {
+        return view('signup');
+    }
+
+    public function signupAction(Request $request) {
+        if($request->hasFile('image') && $request->image->isValid()) {
+            $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,gif|max:2048'
+            ]);
+
+            $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
+
+            if (in_array($request->image->getMimeType(), $allowedMimeTypes)) {
+                $imgName = $request->image->store('avatars/adm');
+
+                $uploadedImage = Image::create([
+                    "name" => $imgName
+                ]);
+            }
+        }
+
+        else {
+            $uploadedImage = Image::find(1);
+        }
+
+        $request->validate([
+            'name' => 'required|min:5',
+            'username' => 'required|regex:/^\S*$/|min:3',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'min:8'
+        ]);
+
+        $data = $request->only([
+            'name',
+            'username',
+            'email',
+            'phone'
+        ]);
+
+        $data['image_id'] = $uploadedImage->id;
+
+        $data['status'] = 'Ativado';
+
+        $data['password'] = Str::random(8);
+
+        $passwordToMail = $data['password'];
+        $data['password'] = Hash::make($data['password']);
+
+        //CRIAR O USUÁRIO NO ASAAS
+        $guzzle = new \GuzzleHttp\Client();
+
+        $clientData = UserHandler::clientExists($data['email']);
+
+        if($clientData == null) {
+            //CRIAR O CLIENTE NO ASSAS
+            $body = [
+                'name' => $data['name'],
+                'cpfCnpj' => "00000000000",
+                'email' => $data['email'],
+                'mobilePhone' => $data['phone'],
+            ];
+
+            $response = $guzzle->request('POST', 'https://sandbox.asaas.com/api/v3/customers', [
+                'body' => json_encode($body),
+                'headers' => [
+                    'accept' => 'application/json',
+                    'access_token' => '$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwNzM4NzE6OiRhYWNoX2YyOTFlZWQ1LTVmNDMtNDM4My04ODAwLWNhYzJkMDI0YWE3Yg==',
+                    'content-type' => 'application/json',
+                ],
+            ]);
+        }
+
+        $newUser = User::create($data);
+
+        // Busca todos os usuários
+        $users = User::where('permission_id', '1')->get();
+
+        Notification::send($users, new NewUserRegister($newUser));
+
+        $newUser->notify(new sendUserPasswordNotification($newUser, $passwordToMail));
+
+        return redirect(route("users"));
+
     }
 }

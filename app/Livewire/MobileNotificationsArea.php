@@ -34,8 +34,10 @@ class MobileNotificationsArea extends Component
         if($this->mobileDisplay == "none") {
             $this->mobileDisplay = "block";
 
-            foreach ($this->user->unreadNotifications as $notification) {
-                $notification->markAsRead();
+            if(Auth::check()) {
+                foreach ($this->user->unreadNotifications as $notification) {
+                    $notification->markAsRead();
+                }
             }
         }
 

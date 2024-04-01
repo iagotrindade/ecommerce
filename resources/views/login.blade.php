@@ -8,7 +8,7 @@
         <link rel="stylesheet" media="(max-width: 1200px)" href="/assets/css/m_style.css"/>
         <link rel="stylesheet" media="(max-width: 950px)" href="/assets/css/t_style.css"/>
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-        <title>Painel Administrativo - Confirmação de Login</title>
+        <title>Painel Administrativo - Entrar</title>
     </head>
 
     <body class="adm-body">
@@ -18,7 +18,7 @@
                     <img src="{{url("assets/images/panel-images/login-icon-image.png")}}" alt="ícone">
 
                     <div class="create_account-area default-flex">
-                        <a class="default-flex" href="">Criar uma Conta</a>
+                        <a class="default-flex" href="{{route('signup')}}">Criar uma Conta</a>
                     </div>
 
                     <div class="or-login-line-area default-flex-around">

@@ -555,8 +555,6 @@
 
 .profile-menu-area-list {
     list-style: none;
-}
-.mobile-profile-area {
     padding: 10px;
 }
 
@@ -587,9 +585,10 @@
     top: 0; /* Define a posição superior da div como 0 */
     left: 0; /* Define a posição esquerda da div como 0 */
     width: 100%; /* Define a largura da div como 100% da tela */
-    height: 100%; /* Define a altura da div como 100% da tela */
+    height: 93%; /* Define a altura da div como 100% da tela */
     background-color: #F5F3FF;
     z-index: 998; /* Define o índice z da div como 9999 para que ela fique sobreposta a todos os outros elementos */
+    overflow-x: scroll;
 }
 
 .mobile-profile-add-new-address-form {

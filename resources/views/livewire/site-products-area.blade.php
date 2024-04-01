@@ -49,9 +49,9 @@
                 <div class="mobile-products-header">
                     <h3>Bem vindo(a), {{$user->name}}!</h3>
 
-                    <h4>Peça Novamente</h4>
-
                     @if (!empty($lastProductPurchased))
+                        <h4>Peça Novamente</h4>
+
                         <div class="ask-again-area">
                             <div class="site-product-item default-flex-start">
                                 <div class="site-product-image-area default-flex" wire:click="openAddonsModal({{$lastProductPurchased->id}})">

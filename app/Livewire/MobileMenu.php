@@ -13,12 +13,14 @@ class MobileMenu extends Component
     public $user;
     public $cartCount;
     public $newNotificationCount;
-    
+
     public function render()
     {
-        $this->user = Auth::user();
-        $this->newNotificationCount = count($this->user->unreadNotifications);
-        
+        if(Auth::check()) {
+            $this->user = Auth::user();
+            $this->newNotificationCount = count($this->user->unreadNotifications);
+        }
+
         return view('livewire.mobile-menu');
     }
 

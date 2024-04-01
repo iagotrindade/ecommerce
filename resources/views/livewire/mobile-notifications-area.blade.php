@@ -45,7 +45,7 @@
                 <h3>Janeiro, 2024</h3>
             </div>
         @else
-            <h4>É preciso estar logado para ver suas Notificações</h4>
+            <x-login-form></x-login-form>
         @endif
     </div>
 </div>
