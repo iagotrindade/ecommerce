@@ -212,4 +212,8 @@ class UserController extends Controller
 
         return redirect('usuarios');
     }
+
+    public function signin(Request $request) {
+        return view('signin');
+    }
 }

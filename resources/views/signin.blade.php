@@ -17,15 +17,7 @@
                 <div class="login-form-header-area default-flex-column">
                     <img src="{{url("assets/images/panel-images/login-icon-image.png")}}" alt="ícone">
 
-                    <div class="create_account-area default-flex">
-                        <a class="default-flex" href="{{route('signin')}}">Criar uma Conta</a>
-                    </div>
-
-                    <div class="or-login-line-area default-flex-around">
-                        <div class="or-login-line-left"></div>
-                        <p>Ou</p>
-                        <div class="or-login-line-right"></div>
-                    </div>
+                    <h2 class="signin-title">Cadastro</h2>
 
                     @if ($errors->any())
                         <ul>
@@ -33,40 +25,39 @@
                                 <li class="warning-item">{{$error}}</li>
                             @endforeach
                         </ul>
-
-                    @else <h2 class="confirm-login-title">LOGIN</h2>
-
                     @endif
                 </div>
 
                 <div class="login-form-inputs-area">
-                    <form method="POST" action="{{route('login.action')}}">
+                    <form method="POST" action="{{route('signin.action')}}">
                         @csrf
-                        <div class="input-area">
-                            <div class="">
+                        <div class="input-area default-flex-column">
+                            <div>
                                 <i class='bx bx-user'></i>
-                                <input class="login-form-inputs-area-input" type="text" name="email" id="email" placeholder="Digite seu E-mail" required>
+                                <input class="login-form-inputs-area-input" type="text" name="name" id="name" placeholder="Nome Completo" required>
                             </div>
 
-                            <div class="">
-                                <i class='bx bxs-lock'></i>
-                                <input class="login-form-inputs-area-input" type="password" name="password" id="password" placeholder="Digite sua Senha" required>
+                            <div>
+                                <i class='bx bx-user-pin'></i>
+                                <input class="login-form-inputs-area-input" type="text" name="username" id="username" placeholder="Usuário" required>
                             </div>
 
-                            <div class="default-flex-between remember-input-area">
-                                <div class="default-flex-start">
-                                    <input class="remeber-input" type="checkbox" name="remember">
-                                    <label class="remeber-label" for="remember">Lembrar-me</label>
-                                </div>
-
-                                <button class="login-submit-button" type="submit">Login</button>
+                            <div>
+                                <i class='bx bxs-envelope' ></i>
+                                <input class="login-form-inputs-area-input" type="email" name="email" id="email" placeholder="E-mail" required>
                             </div>
 
+                            <div class="default-flex">
+                                <button class="signin-submit-button" type="submit">Cadastrar</button>
+                            </div>
+
+                            <p class="signin-password-warning">
+                                *Após realizar o cadastro, enviaremos uma senha de acesso para o email informado acima!
+                            </p>
+     
                             <div class="forgot-password-link-area default-flex">
-                                <a href="{{route('forgot.password')}}">Esqueceu sua senha? Clique aqui</a>
+                                <a href="{{route('login')}}">Já possuí uma conta? Clique aqui</a>
                             </div>
-
-                            <a class="enter-without-login-button default-flex" href="{{route('home')}}">Entrar sem Login -> </a>
                         </div>
                     </form>
                 </div>
