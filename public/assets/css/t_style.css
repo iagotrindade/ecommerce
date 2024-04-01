@@ -11,6 +11,18 @@
     height: 100vh;
 }
 
+.warning-item {
+    width: 90vw;
+}
+
+.signin-submit-button {
+    width: 90vw;
+}
+
+.signin-password-warning {
+    width: 90vw;
+}
+
 .login-image {
     display: none;
 }

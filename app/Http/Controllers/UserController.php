@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Config;
 use App\Http\Controllers\Mails\AuthMailController;
 use App\Http\Controllers\WhatsAppController;
 use App\Http\Handlers\AuthHandler;
+use App\Http\Handlers\UserHandler;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\CreateUserNotification;
 use App\Notifications\sendUserPasswordNotification;
@@ -251,6 +252,8 @@ class UserController extends Controller
 
         $data['status'] = 'Ativado';
 
+        $data['permission_id'] = '3';
+
         $data['password'] = Str::random(8);
 
         $passwordToMail = $data['password'];
@@ -261,7 +264,7 @@ class UserController extends Controller
 
         $clientData = UserHandler::clientExists($data['email']);
 
-        if($clientData == null) {
+        /*if($clientData == null) {
             //CRIAR O CLIENTE NO ASSAS
             $body = [
                 'name' => $data['name'],
@@ -278,7 +281,7 @@ class UserController extends Controller
                     'content-type' => 'application/json',
                 ],
             ]);
-        }
+        }*/
 
         $newUser = User::create($data);
 
@@ -289,7 +292,7 @@ class UserController extends Controller
 
         $newUser->notify(new sendUserPasswordNotification($newUser, $passwordToMail));
 
-        return redirect(route("users"));
+        return view('login')->withErrors(['campo' => 'Enviamos um e-mail de confirmação para o endereço informado!']);
 
     }
 }

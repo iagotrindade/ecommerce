@@ -56,7 +56,7 @@
 }
 
 .w-100 {
-    width: 100%;
+    width: 100% !important;
 }
 
 .w-95 {
@@ -1553,6 +1553,10 @@
     margin-bottom: 44px;
 }
 
+.signin-title {
+    margin-bottom: 40px;
+}
+
 .login-image {
     width: 771px;
     height: 928px;
@@ -1624,6 +1628,22 @@
     color: #FFFFFF;
     border: none;
     cursor: pointer;
+}
+
+.signin-submit-button  {
+    width: 370px;
+    height: 38px;
+    background: var(--primary-color);
+    border-radius: 7px;
+    color: #FFFFFF;
+    border: none;
+    cursor: pointer;
+}
+
+.signin-password-warning {
+    width: 370px;
+    margin: 40px 0;
+    font-size: 14px;
 }
 
 .confirm-login-title {
