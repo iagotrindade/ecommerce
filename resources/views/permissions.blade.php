@@ -83,10 +83,10 @@
                 </div>
 
                 <div class="permissions-group-item default-flex-column-start">
-                    <p class="permission-type-name">Permissões da Galeria</p>
+                    <p class="permission-type-name">Permissões de QRCodes</p>
 
                     @foreach ($permissionItems as $permissionItem)
-                        @if ($permissionItem->type === 'gallery_access')
+                        @if ($permissionItem->type === 'qrcode_access')
                             <div class="permissions-permission-item-add default-flex" data-value="{{$permissionItem->id}}">
                                 <p>{{$permissionItem->name}}</p>
                             </div>
@@ -122,10 +122,10 @@
                 </div>
 
                 <div class="permissions-group-item default-flex-column-start">
-                    <p class="permission-type-name">Permissões da Galeria</p>
+                    <p class="permission-type-name">Permissões de QRCodes</p>
 
                     @foreach ($permissionItems as $permissionItem)
-                        @if ($permissionItem->type === 'gallery_access')
+                        @if ($permissionItem->type === 'qrcode_access')
                             <div class="permissions-permission-item default-flex" data-value="{{$permissionItem->id}}">
                                 <p>{{$permissionItem->name}}</p>
                             </div>

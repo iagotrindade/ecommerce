@@ -293,6 +293,5 @@ class UserController extends Controller
         $newUser->notify(new sendUserPasswordNotification($newUser, $passwordToMail));
 
         return view('login')->withErrors(['campo' => 'Enviamos um e-mail de confirmação para o endereço informado!']);
-
     }
 }
