@@ -1,5 +1,5 @@
 <div class="asside-menu-area default-flex-column-start">
-    <a class="default-flex logo-image-area" href="{{route('dashboard')}}">
+    <a class="default-flex logo-image-area" href="{{route('orders')}}">
         <img class="logo-image" src="{{url('assets/images/panel-images/logo.png')}}" alt="OverFood">
     </a>
 

@@ -21,12 +21,6 @@ class PermissionItemsSeeder extends Seeder
             'type' => 'gallery_access'
         ]);
 
-        DB::table('permission_items')->insert([
-            'name' => 'Deletar Imagem na Galeria',
-            'slug' => 'delete_image_to_gallery',
-            'type' => 'gallery_access'
-        ]);
-
         //USERS PERMISSIONS
 
         DB::table('permission_items')->insert([

@@ -52,9 +52,11 @@
                                         <img src="{{url("assets/images/panel-icons/download_icon.png")}}" alt="Baixar QRCode">
                                     </a>
 
-                                    <a class="delete-qrcode-icon default-flex" href="{{route('qrcode.delete', $qrCode->id)}}" onclick="return confirmDel('Deseja realmente excluir o QRCode {{$qrCode->name}}')">
-                                        <i class='bx bxs-trash'></i>
-                                    </a>
+                                    @if($permissionsController::hasPermission('delete_qrcode', $user['permissionSlugs']))
+                                        <a class="delete-qrcode-icon default-flex" href="{{route('qrcode.delete', $qrCode->id)}}" onclick="return confirmDel('Deseja realmente excluir o QRCode {{$qrCode->name}}')">
+                                            <i class='bx bxs-trash'></i>
+                                        </a>
+                                    @endif
                                 </div>
                             </td>
                         </tr>

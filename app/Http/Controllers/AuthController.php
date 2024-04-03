@@ -30,7 +30,7 @@ class AuthController extends Controller
 {
     public function index(Request $request) {
         if(Auth::check()) {
-            return redirect('dashboard');
+            return redirect('orders');
         };
 
         return view("login");
@@ -102,7 +102,7 @@ class AuthController extends Controller
             ]);
 
             //Redireciona o SITE se for um cliente ou ao DASHBOARD se for um usuário
-            return redirect($user->permission->name === "Cliente" ? route('home') : route('dashboard'));
+            return redirect($user->permission->name === "Cliente" ? route('home') : route('orders'));
         }
 
         else {
