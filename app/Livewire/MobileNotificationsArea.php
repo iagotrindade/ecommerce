@@ -18,7 +18,7 @@ class MobileNotificationsArea extends Component
 
     public function render()
     {
-        $date = DateHandler::getCurrentMonthYear();
+        $date = \App\Http\Handlers\DateHandler();
         return view('livewire.mobile-notifications-area', [
             "date" => $date
         ]);

@@ -26,7 +26,7 @@ class CartHandler {
     public static function calculateTotal()
     {
         if(session('cart')) {
-            $subtotal = CartHandler::calculateSubtotal();
+            $subtotal = \App\Http\Handlers\calculateSubtotal();
             $discount = 0; // Substitua pelo cálculo real do desconto, se aplicável.
             $deliveryCost = 0; // Substitua pelo cálculo real do custo de entrega.
 

@@ -28,7 +28,7 @@ class UserController extends Controller
 
     public function index($id = null) {
         //GETTING LOGGEDUSER, USERS LIST AND PERMISSIONS LIST
-        $this->authUser = AuthHandler::getAuthUser();
+        $this->authUser = \App\Http\Handlers\AuthHandler::getAuthUser();
 
         $permissionGroups = PermissionGroups::all();
 
@@ -45,7 +45,7 @@ class UserController extends Controller
     }
 
     public function new(Request $request) {
-        $authUser = AuthHandler::getAuthUser();
+        $authUser = \App\Http\Handlers\AuthHandler::getAuthUser();
 
         if($request->hasFile('image') && $request->image->isValid()) {
             $request->validate([
@@ -105,7 +105,7 @@ class UserController extends Controller
 
     public function edit(Request $request) {
         $user = User::find($request->user_id);
-        $this->authUser = AuthHandler::getAuthUser();
+        $this->authUser = \App\Http\Handlers\AuthHandler::getAuthUser();
 
         $oldImage = Image::find($user->getImage->id);
 
@@ -262,7 +262,7 @@ class UserController extends Controller
         //CRIAR O USUÁRIO NO ASAAS
         $guzzle = new \GuzzleHttp\Client();
 
-        $clientData = UserHandler::clientExists($data['email']);
+        $clientData = \App\Http\Handlers\AuthHandler::clientExists($data['email']);
 
         /*if($clientData == null) {
             //CRIAR O CLIENTE NO ASSAS

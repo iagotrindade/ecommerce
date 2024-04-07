@@ -21,7 +21,7 @@ class OrdersArea extends Component
     public function render()
     {
         if(empty($this->orders)) {
-            $this->orders = OrderHandler::processOrdersInfo(Order::orderBy("created_at", "desc")->get());
+            $this->orders = \App\Http\Handlers\OrderHandler::processOrdersInfo(Order::orderBy("created_at", "desc")->get());
         }
 
         return view('livewire.orders-area', [
@@ -41,7 +41,7 @@ class OrdersArea extends Component
     #[On('searchOrders')]
     public function showSearchedOrders($orders) {
         if(!empty($orders)) {
-            $this->orders = OrderHandler::processOrdersInfo($orders);
+            $this->orders = \App\Http\Handlers\OrderHandler::processOrdersInfo($orders);
         }
     }
 
@@ -57,7 +57,7 @@ class OrdersArea extends Component
             $orders = Order::orderBy("created_at", "desc")->get();
         }
 
-        $this->orders = OrderHandler::processOrdersInfo($orders);
+        $this->orders = \App\Http\Handlers\OrderHandler::processOrdersInfo($orders);
     }
 }
 

@@ -30,16 +30,16 @@ class AdmUsersTable extends Component
 
     public function render()
     {
-        $this->authUser = AuthHandler::getAuthUser();
+        $this->authUser = \App\Http\Handlers\AuthHandler::getAuthUser();
         $this->permissionGroups = PermissionGroups::all();
 
         if(is_string($this->users)) {
-            $this->searchUser = UserHandler::processUserInfo(User::find($this->users), $this->permissionGroups);
+            $this->searchUser = \App\Http\Handlers\AuthHandler::processUserInfo(User::find($this->users), $this->permissionGroups);
         }
 
         else {
             $users = User::all();
-            $this->users = UserHandler::processUsersListInfo($users, $this->permissionGroups);
+            $this->users = \App\Http\Handlers\UserHandler::processUsersListInfo($users, $this->permissionGroups);
         }
 
         //GETTING PERMISSION CONTROLLER
@@ -52,7 +52,7 @@ class AdmUsersTable extends Component
 
     public function openEditModal($userId) {
         if ($this->userEdited === null) {
-            $this->userEdited = UserHandler::processUserInfo(User::find($userId), $this->permissionGroups);
+            $this->userEdited = \App\Http\Handlers\AuthHandler::processUserInfo(User::find($userId), $this->permissionGroups);
 
             $this->userEditedTemp = [
                 'id' => $this->userEdited->id,
@@ -85,7 +85,7 @@ class AdmUsersTable extends Component
 
     #[On('searchUsers')]
     public function searchUsers($users) {
-        $this->users = UserHandler::processUsersListInfo($users, $this->permissionGroups);
+        $this->users = \App\Http\Handlers\UserHandler::processUsersListInfo($users, $this->permissionGroups);
     }
 
     public function updatedUserEditedImageTemp()

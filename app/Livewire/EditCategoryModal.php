@@ -13,10 +13,6 @@ class EditCategoryModal extends Component
 
     public function render()
     {
-        if(empty($this->category)) {
-            $this->category = Categories::find(1);
-        }
-
         return view('livewire.edit-category-modal');
     }
 

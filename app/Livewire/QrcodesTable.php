@@ -16,7 +16,7 @@ class QrcodesTable extends Component
 
     public function render()
     {
-        $this->authUser = AuthHandler::getAuthUser();
+        $this->authUser = \App\Http\Handlers\AuthHandler::getAuthUser();
         $this->qrcodes = QrCodes::all();
         $permissionGroups = PermissionGroups::all();
         $permissionsController = PermissionController::class;

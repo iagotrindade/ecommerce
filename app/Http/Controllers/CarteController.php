@@ -14,7 +14,7 @@ class CarteController extends Controller
     public $user;
 
     public function index($id = null) {
-        $this->user = AuthHandler::getAuthUser();
+        $this->user = \App\Http\Handlers\AuthHandler::getAuthUser();
         $this->categories = Categories::orderBy('order_number')->get();
 
         return view('carte', [

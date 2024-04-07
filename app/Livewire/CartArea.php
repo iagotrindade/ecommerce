@@ -447,7 +447,7 @@ class CartArea extends Component
     public function finalizePurchase() {
         $this->orderType = $this->deliveryOrder ? 'Delivery' : ($this->tableOrder ? 'Mesa' : '');
         //VERIFICAR SE O CLIENTE JÁ EXISTE
-        $clientData = UserHandler::clientExists($this->email);
+        $clientData = \App\Http\Handlers\AuthHandler::clientExists($this->email);
 
         $guzzle = new \GuzzleHttp\Client();
 

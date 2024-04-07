@@ -22,8 +22,8 @@ class CartSummary extends Component
         if(Route::currentRouteName() == 'cart') {
             $this->display = 'none';
         }
-        $this->cartSubtotal = CartHandler::calculateSubtotal();
-        $this->cartTotal = CartHandler::calculateTotal();
+        $this->cartSubtotal = \App\Http\Handlers\calculateSubtotal();
+        $this->cartTotal = \App\Http\Handlers\calculateTotal();
 
         return view('livewire.cart-summary', [
             'cartSubtotal' => $this->cartSubtotal,

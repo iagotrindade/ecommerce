@@ -13,7 +13,7 @@ class QrcodeController extends Controller
     public $authUser;
 
     public function index() {
-        $this->authUser = AuthHandler::getAuthUser();
+        $this->authUser = \App\Http\Handlers\AuthHandler::getAuthUser();
 
         return view('qrcode', [
             'user' => $this->authUser
@@ -25,7 +25,7 @@ class QrcodeController extends Controller
             'name' => 'required|min:1'
         ]);
 
-        $qrcode = QrCodeHandler::generate($request->name);
+        $qrcode = \App\Http\Handlers\QrCodeHandler::generate($request->name);
 
         $status = ($request->status == 'on') ? 'Ativado' : 'Desativado';
 
@@ -44,7 +44,7 @@ class QrcodeController extends Controller
             'id' => 'required'
         ]);
 
-        $qrcode = QrCodeHandler::generate($request->name);
+        $qrcode = \App\Http\Handlers\QrCodeHandler::generate($request->name);
 
         $status = ($request->status == 'on') ? 'Ativado' : 'Desativado';
 

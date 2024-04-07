@@ -64,7 +64,7 @@ class MobileProfileArea extends Component
             $this->favorites = $this->user->favorites->pluck('product_id')->toArray();
 
             if($this->user->orders->isNotEmpty()) {
-                $this->userOrders = OrderHandler::processOrdersInfo($this->user->orders);
+                $this->userOrders = \App\Http\Handlers\OrderHandler::processOrdersInfo($this->user->orders);
             }
         }
 

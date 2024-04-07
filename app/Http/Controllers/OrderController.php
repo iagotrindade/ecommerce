@@ -15,7 +15,7 @@ class OrderController extends Controller
     public $user;
 
     public function index() {
-        $this->user = AuthHandler::getAuthUser();
+        $this->user = \App\Http\Handlers\AuthHandler::getAuthUser();
 
         return view("orders" , [
             "user" => $this->user
@@ -23,10 +23,10 @@ class OrderController extends Controller
     }
 
     public function order(Request $request ) {
-        $this->user = AuthHandler::getAuthUser();
+        $this->user = \App\Http\Handlers\AuthHandler::getAuthUser();
         $orderId = $request->id;
 
-        $order = OrderHandler::processOrderInfo($orderId);
+        $order = \App\Http\Handlers\processOrderInfo($orderId);
 
         return view("order", [
             "order" => $order,

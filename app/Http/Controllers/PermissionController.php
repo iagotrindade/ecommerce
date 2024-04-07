@@ -17,7 +17,7 @@ class PermissionController extends Controller
 
     public function index() {
         //GETTING LOGGEDUSER, PERMISSIONS LIST AND PERMISSIONS ITEMS
-        $this->authUser = AuthHandler::getAuthUser();
+        $this->authUser = \App\Http\Handlers\AuthHandler::getAuthUser();
         $permissionGroups = PermissionGroups::all();
         $permissionItems = PermissionItems::all();
         $permissionLinks = PermissionLinks::all();

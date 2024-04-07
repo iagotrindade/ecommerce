@@ -14,7 +14,7 @@ class CartController extends Controller
 
     public function index(Request $request) {
         if(Auth::check()) {
-            $this->user = AuthHandler::getAuthUser();
+            $this->user = \App\Http\Handlers\AuthHandler::getAuthUser();
         }
 
         return view('cart', [

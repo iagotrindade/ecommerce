@@ -40,6 +40,8 @@
                         </div>
                     </div>
                 @endforeach
+            @else
+                <h4>Nenhum produto disponível</h4>
             @endif
         </div>
 

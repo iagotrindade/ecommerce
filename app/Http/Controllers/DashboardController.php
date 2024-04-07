@@ -12,7 +12,7 @@ class DashboardController extends Controller
     public $user;
 
     public function index() {
-        $this->user = AuthHandler::getAuthUser();
+        $this->user = \App\Http\Handlers\AuthHandler::getAuthUser();
 
         return view('dashboard', [
             'user' => $this->user

@@ -37,12 +37,12 @@ class SiteProductsArea extends Component
     public function render()
     {
         if(Auth::check()) {
-            $this->user =  AuthHandler::getAuthUser();
+            $this->user =  \App\Http\Handlers\AuthHandler::getAuthUser();
             $this->favorites = $this->user->favorites->pluck('product_id')->toArray();
 
             if($this->user->orders->isNotEmpty()) {
 
-                
+
                 $this->lastProductPurchased = $this->user->orders[0]->purchasedProducts[0]->product;
             }
         }
@@ -64,12 +64,6 @@ class SiteProductsArea extends Component
                 $this->products = session('searchProduct');
 
                 Session::forget('searchProduct');
-            }
-
-            if(empty($this->products)) {
-                $this->products = Product::where('status', 'Ativado')->
-                                            where('categories_id', $this->filterCategory->id)
-                                        ->get();
             }
         }
 
@@ -116,7 +110,7 @@ class SiteProductsArea extends Component
     #[On('favoriteProduct')]
     public function favoriteProduct($productId) {
         if(Auth::check()) {
-            
+
             $existingFavorite = Favorite::where('user_id', $this->user->id)
                 ->where('product_id', $productId)
                 ->first();

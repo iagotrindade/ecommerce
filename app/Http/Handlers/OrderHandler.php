@@ -15,6 +15,8 @@ class OrderHandler
     public $processedOrder;
 
     public static function processOrdersInfo($orders) {
+        $processedOrders = [];
+
         foreach ($orders as $data) {
             switch ($data['status']) {
                 case 'RECEIVED':

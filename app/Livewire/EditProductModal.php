@@ -17,9 +17,6 @@ class EditProductModal extends Component
 
     public function render()
     {
-        if(empty($this->product)) {
-            $this->product = Product::find(1);
-        }
         return view('livewire.edit-product-modal');
     }
 

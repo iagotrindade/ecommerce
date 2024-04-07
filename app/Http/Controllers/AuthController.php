@@ -54,9 +54,9 @@ class AuthController extends Controller
                 return redirect(route('login', ['userId' => $user->id]))->withErrors(['status' => 'O usuário informado está desativado!']);
             }
 
-            $accessDetails = AuthHandler::getAccessDetails($request);
+            $accessDetails = \App\Http\Handlers\AuthHandler::getAccessDetails($request);
 
-            AuthHandler::sendVerificationCode($user,  $accessDetails);
+            \App\Http\Handlers\AuthHandler::sendVerificationCode($user,  $accessDetails);
 
             return view('verify_login', [
                 'userId' => $user->id
@@ -92,7 +92,7 @@ class AuthController extends Controller
 
             Auth::loginUsingId($request->userId, $remember);
 
-            $accessDetails = AuthHandler::getAccessDetails($request);
+            $accessDetails = \App\Http\Handlers\AuthHandler::getAccessDetails($request);
 
             $user->notify(new AccountLoginNotification($user, $accessDetails));
 
@@ -117,7 +117,7 @@ class AuthController extends Controller
 
         $accessDetails = "";
 
-        AuthHandler::sendVerificationCode($user, $accessDetails);
+        \App\Http\Handlers\AuthHandler::sendVerificationCode($user, $accessDetails);
 
         return view('verify_login', [
             'userId' => $user->id
@@ -158,7 +158,7 @@ class AuthController extends Controller
             'password' => 'required|min:8|confirmed',
         ]);
 
-        $this->accessDetails = AuthHandler::getAccessDetails($request);
+        $this->accessDetails = \App\Http\Handlers\AuthHandler::getAccessDetails($request);
 
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),

@@ -16,7 +16,7 @@ class HomeController extends Controller
 
     public function index(Request $request, $table = null, $product = null) {
         if(Auth::check()) {
-            $this->user = AuthHandler::getAuthUser();
+            $this->user = \App\Http\Handlers\AuthHandler::getAuthUser();
         }
 
         return view('home', [

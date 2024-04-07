@@ -1002,6 +1002,10 @@
     cursor: pointer;
 }
 
+.mobile-payment-area {
+    display: none;
+}
+
 .mobile-cart-header {
     display: none;
     margin-bottom: 10px;

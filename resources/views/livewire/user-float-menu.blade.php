@@ -23,7 +23,7 @@
                 </li>
 
                 <li>
-                    <a href="">Sair</a>
+                    <a href="{{route('logout', $user->id)}}">Sair</a>
                 </li>
             </ul>
         </div>
